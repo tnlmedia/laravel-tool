@@ -3,7 +3,7 @@
 namespace TNLMedia\LaravelTool\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use TNLMedia\LaravelTool\Helpers\AdvertisingHelper;
+use TNLMedia\LaravelTool\Helpers\BladeHelper;
 
 class TNLMediaAD extends Facade
 {
@@ -14,6 +14,6 @@ class TNLMediaAD extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return AdvertisingHelper::class;
+        return BladeHelper::class;
     }
 }

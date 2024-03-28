@@ -2,7 +2,7 @@
 
 namespace TNLMedia\LaravelTool\Helpers;
 
-class AdvertisingHelper
+class BladeHelper
 {
     private string $flux_core = '';
 
