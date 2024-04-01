@@ -2,14 +2,14 @@
     window.pbjs = window.pbjs || {que: []};
     window.googletag = window.googletag || {cmd: []};
 </script>
-@if (isset($flux_core))
+@if ($flux_core)
     <script async src="{{ $flux_core }}"></script>
 @endif
 <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
 <script>
     window.fluxtag = {
         readyBids: {prebid: false, amazon: false, google: false},
-        failSafeTimeout: 3000,
+        failSafeTimeout: {{ $flux_timeout }},
         isFn: function (object) {
             var _t = 'Function';
             var toString = Object.prototype.toString;
@@ -59,7 +59,6 @@
                     googletag.pubads().getSlots().forEach(function (slot) {
                         definedSlots[slot.getSlotElementId()] = slot;
                     });
-
                     lines.forEach(function (line) {
                         var divId = line.divId;
                         adsInfo.pb.divIds.push(divId);
@@ -162,7 +161,102 @@
         googletag.pubads().disableInitialLoad();
         googletag.pubads().enableAsyncRendering();
         googletag.pubads().collapseEmptyDivs();
-        // googletag.pubads().addEventListener('slotRenderEnded', slotRenderEndedCallback);
+        @if (is_array($gam_event))
+        googletag.pubads().addEventListener('{{ $gam_event[0] ?? '' }}', {{ $gam_event[1] ?? '' }});
+        @endif
         googletag.enableServices();
     });
+</script>
+<script>
+    window.tmgad = {
+        serial: 0,
+        scan: function () {
+            let list = document.querySelectorAll('.tmgad-new');
+            let i;
+            for (i = 0; i < list.length; i++) {
+                tmgad.build(list[i]);
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                tmgad.scan();
+            });
+        },
+        build: function (target) {
+            try { target.classList.remove('tmgad-new'); } catch (e) {}
+            let attributes = {slot: '', type: 'general', size: [], mapping: [], targeting: {}};
+            try {
+                attributes = Object.assign(attributes, JSON.parse(target.querySelector('script').textContent.trim()));
+            } catch (e) {
+                console.warn('TMGAD build attributes: ' + e.message);
+                return false;
+            }
+            try {
+                tmgad.serial++;
+                let id = 'tmgad-' + attributes.slot + '-' + tmgad.serial;
+                id.replace('/', '-');
+                target.setAttribute('id', attributes.id);
+            } catch (e) {
+                console.warn('TMGAD build ID: ' + e.message);
+                return false;
+            }
+            try {
+                switch (attributes.type) {
+                    case 'flux':
+                        let flux = {
+                            divId: id,
+                            gpt: {
+                                unitCode: attributes.slot,
+                                sizes: attributes.size,
+                                sizeMapping: attributes.mapping,
+                                keyValues: [],
+                            },
+                        };
+                        for (let targeting in attributes.targeting) {
+                            if (!attributes.targeting[targeting].length) {
+                                continue;
+                            }
+                            flux.gpt.keyValues.push({key: targeting, value: attributes.targeting[targeting]});
+                        }
+                        window.fluxtag.renderAds({flux});
+                        return;
+                }
+            } catch (e) {
+                console.warn('TMGAD build flux: ' + e.message);
+                return false;
+            }
+            try {
+                let mapping = googletag.sizeMapping();
+                for (let i = 0; i < attributes.mapping.length; i++) {
+                    if (!attributes.mapping[i][1].length) {
+                        continue;
+                    }
+                    mapping = mapping.addSize(attributes.mapping[i][0], attributes.mapping[i][1]);
+                }
+                let service = googletag.pubads();
+                for (let targeting in attributes.targeting) {
+                    if (!attributes.targeting[targeting].length) {
+                        continue;
+                    }
+                    service.setTargeting(targeting, attributes.targeting[targeting]);
+                }
+                googletag.cmd.push(function () {
+                    let slot;
+                    switch (attributes.type) {
+                        case 'oop':
+                            slot = googletag.defineOutOfPageSlot(attributes.slot, attributes.id)
+                                .addService(service);
+                            break;
+                        default:
+                            slot = googletag.defineSlot(attributes.slot, attributes.size, attributes.id)
+                                .defineSizeMapping(mapping.build()).addService(service);
+                            break;
+                    }
+                    googletag.display(attributes.id);
+                    googletag.pubads().refresh([slot]);
+                });
+            } catch (e) {
+                console.warn('TMGAD build GAM: ' + e.message);
+                return false;
+            }
+        },
+    };
 </script>

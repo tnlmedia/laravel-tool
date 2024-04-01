@@ -3,9 +3,9 @@
 namespace TNLMedia\LaravelTool\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use TNLMedia\LaravelTool\Helpers\BladeHelper;
+use TNLMedia\LaravelTool\Helpers\TMGBladeHelper;
 
-class TNLMediaAD extends Facade
+class TMGBlade extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -14,6 +14,6 @@ class TNLMediaAD extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return BladeHelper::class;
+        return TMGBladeHelper::class;
     }
 }

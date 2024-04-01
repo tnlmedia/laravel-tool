@@ -36,10 +36,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "TNLMediaProvider"
+                "TNLMedia\\LaravelTool\\Providers\\TMGProvider"
             ],
             "aliases": {
-                "TNLMediaAD": "TNLMedia\\LaravelTool\\Facades\\TNLMediaAD"
+                "TMGBlade": "TNLMedia\\LaravelTool\\Facades\\TMGBlade"
             }
         }
     }
