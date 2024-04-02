@@ -1,19 +1,23 @@
 <?php
 
 return [
-    'flux' => [
-        // Flux core js
-        'core' => '',
-        // Failed timeout (int): Optional, default 3000ms
-        'timeout' => 3000,
-    ],
-
     'gam' => [
+        // Join GAM code or not, force via flux
+        'staus' => false,
         // GAM event listener, format [event name, callback function]
         // @see https://developers.google.com/publisher-tag/samples/ad-event-listeners?hl=zh-tw
         'event' => [
             ['SlotRenderEnded', 'SlotOnloadCallback'],
         ],
+    ],
+
+    'flux' => [
+        // Join flux code or not
+        'status' => false,
+        // Flux core js
+        'core' => '',
+        // Failed timeout (int): Optional, default 3000ms
+        'timeout' => 3000,
     ],
 
     'slot' => [
