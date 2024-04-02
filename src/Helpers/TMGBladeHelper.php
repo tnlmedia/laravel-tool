@@ -35,6 +35,13 @@ class TMGBladeHelper
         return $header;
     }
 
+    /**
+     * Set advertising targeting
+     *
+     * @param string $key
+     * @param array $list
+     * @return $this
+     */
     public function setTargeting(string $key, array $list = []): self
     {
         $this->targeting[$key] = $list;
@@ -48,14 +55,18 @@ class TMGBladeHelper
      * @param array $config
      * @return string
      */
-    public function renderSlot(string $slot, array $config = []): string
+    public function renderSlot(string $name, array $config = []): string
     {
-        if (empty($slot)) {
-            return '';
+        if (empty($name)) {
+            return '<!-- Invalid slot name -->';
         }
 
         // Merge
-        $default = config('tmg-advertising.slot.' . $slot, []);
+        $config['targeting'] = array_merge($this->targeting, $config['targeting'] ?? []);
+        $default = config('tmg-advertising.slot.' . $name, []);
+        if (empty($default)) {
+            return '<!-- Invalid slot name -->';
+        }
         foreach ($default as $key => $value) {
             if (!isset($config[$key])) {
                 $config[$key] = $value;
@@ -63,21 +74,24 @@ class TMGBladeHelper
             }
 
             if ($key == 'targeting') {
-                $config[$key] = array_merge($value, $this->targeting, $config[$key]);
+                $config[$key] = array_merge($value, $config[$key]);
             }
         }
 
         // Preprocess
-        $config['slot'] = $slot;
+        $config['name'] = $name;
         $config += [
             'size' => [],
             'mapping' => [],
         ];
+        if (empty($config['slot'])) {
+            return '<!-- Invalid slot id -->';
+        }
         if (empty($config['size']) && !empty($config['mapping'])) {
             $config['size'] = current(end($config['mapping']))[1] ?? [];
         }
         if (empty($config['size'])) {
-            return '';
+            return '<!-- Invalid slot size -->';
         }
         if (empty($config['mapping'])) {
             $config['mapping'] = [[0, 0], $config['size']];

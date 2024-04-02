@@ -22,13 +22,14 @@ return [
 
     'slot' => [
         // Ad slot sample config
-        // Slot name (string): Required, format: /{GAM network ID}/{slot name}
-        '/000/sample-slot' => [
+        'sample' => [
             // Slot type (string): Optional
             // general: Default, general GAM slot
             // oop: GAM out-of-page slot
             // flux: Flux prebid slot
             'type' => 'general',
+            // Slot name (string): Required, format: /{GAM network ID}/{slot name}
+            'slot' => '/000/sample-slot',
             // Default size (array): Optional, default use last mapping size
             'size' => [
                 [300, 250],

@@ -173,7 +173,9 @@
       googletag.pubads().enableAsyncRendering();
       googletag.pubads().collapseEmptyDivs();
       @if (is_array($gam_event))
-      googletag.pubads().addEventListener('{{ $gam_event[0] ?? '' }}', {{ $gam_event[1] ?? '' }});
+      @foreach ($gam_event as $item)
+      googletag.pubads().addEventListener('{{ $item[0] ?? '' }}', {{ $item[1] ?? '' }});
+      @endforeach
       @endif
       googletag.enableServices();
     });
@@ -183,24 +185,27 @@
   <script>
     window.tmgad = {
       serial: 0,
+      loaded: false,
       scan: function () {
         let list = document.querySelectorAll('.tmgad-new');
         let i;
         for (i = 0; i < list.length; i++) {
           tmgad.build(list[i]);
         }
-        document.addEventListener('DOMContentLoaded', function () {
-          tmgad.scan();
-        });
+        if (!tmgad.loaded) {
+          document.addEventListener('DOMContentLoaded', function () {
+            tmgad.scan();
+          });
+          tmgad.loaded = true;
+        }
       },
       build: function (target) {
         try { target.classList.remove('tmgad-new'); } catch (e) {}
-        let attributes = {id: '', slot: '', type: 'general', size: [], mapping: [], targeting: {}};
+        let attributes = {id: '', name: '', slot: '', type: 'general', size: [], mapping: [], targeting: {}};
         try {
           attributes = Object.assign(attributes, JSON.parse(target.querySelector('script').textContent.trim()));
           tmgad.serial++;
-          attributes.id = 'tmgad-' + attributes.slot + '-' + tmgad.serial;
-          attributes.id.replace('/', '-');
+          attributes.id = 'tmgad-' + attributes.name + '-' + tmgad.serial;
           target.setAttribute('id', attributes.id);
           switch (attributes.type) {
             case 'flux':
@@ -219,7 +224,7 @@
                 }
                 flux.gpt.keyValues.push({key: targeting, value: attributes.targeting[targeting]});
               }
-              window.fluxtag.renderAds({flux});
+              window.fluxtag.renderAds([flux]);
               return;
           }
           let mapping = googletag.sizeMapping();
