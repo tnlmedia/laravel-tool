@@ -5,7 +5,7 @@ return [
         // Join GAM code or not, force via flux
         'staus' => false,
         // GAM event listener, format [event name, callback function]
-        // @see https://developers.google.com/publisher-tag/samples/ad-event-listeners?hl=zh-tw
+        // @see https://developers.google.com/publisher-tag/samples/ad-event-listeners
         'event' => [
             ['SlotRenderEnded', 'SlotOnloadCallback'],
         ],
