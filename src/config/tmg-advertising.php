@@ -3,7 +3,7 @@
 return [
     'gam' => [
         // Join GAM code or not, force via flux
-        'staus' => false,
+        'status' => false,
         // GAM event listener, format [event name, callback function]
         // @see https://developers.google.com/publisher-tag/samples/ad-event-listeners
         'event' => [
