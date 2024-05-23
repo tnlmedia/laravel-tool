@@ -44,6 +44,9 @@ class TMGBladeHelper
      */
     public function setTargeting(string $key, array $list = []): self
     {
+        foreach ($list as $serial => $item) {
+            $list[$serial] = strval($item);
+        }
         $this->targeting[$key] = $list;
         return $this;
     }
@@ -61,8 +64,16 @@ class TMGBladeHelper
             return '<!-- Invalid slot name -->';
         }
 
-        // Merge
-        $config['targeting'] = array_merge($this->targeting, $config['targeting'] ?? []);
+        // Merge targeting
+        $config['targeting'] = $config['targeting'] ?? [];
+        foreach ($config['targeting'] as $key => $list) {
+            foreach ($list as $serial => $item) {
+                $config['targeting'][$key][$serial] = strval($item);
+            }
+        }
+        $config['targeting'] = array_merge($this->targeting, $config['targeting']);
+
+        // Merge default
         $default = config('tmg-advertising.slot.' . $name, []);
         if (empty($default)) {
             return '<!-- Invalid slot name -->';
@@ -74,6 +85,11 @@ class TMGBladeHelper
             }
 
             if ($key == 'targeting') {
+                foreach ($value as $value_key => $list) {
+                    foreach ($list as $serial => $item) {
+                        $value[$value_key][$serial] = strval($item);
+                    }
+                }
                 $config[$key] = array_merge($value, $config[$key]);
             }
         }
