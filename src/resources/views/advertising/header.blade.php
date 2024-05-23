@@ -188,13 +188,12 @@
       serial: 0,
       loaded: false,
       scan: function () {
-        let list = document.querySelectorAll('.tmgad-new');
-        let i;
-        for (i = 0; i < list.length; i++) {
-          googletag.cmd.push(function () {
+        googletag.cmd.push(function () {
+          let list = document.querySelectorAll('.tmgad-new');
+          for (let i = 0; i < list.length; i++) {
             tmgad.build(list[i]);
-          });
-        }
+          }
+        });
         if (!tmgad.loaded) {
           document.addEventListener('DOMContentLoaded', function () {
             tmgad.scan();
