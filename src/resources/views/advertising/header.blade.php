@@ -203,7 +203,7 @@
         }
       },
       build: function (target) {
-        if (target.classList.contains('tmgad-new')) {
+        if (!target.classList.contains('tmgad-new')) {
           console.log('TMGAD build: Pass ' + target.getAttribute('class'));
           return;
         }
