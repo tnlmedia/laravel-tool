@@ -174,9 +174,9 @@
       googletag.pubads().collapseEmptyDivs();
       @if (is_array($gam_event))
         @foreach ($gam_event as $item)
-          window.{{ $item[1] ?? '' }} = window.{{ $item[1] ?? '' }} || function (event) {};
-          googletag.pubads().addEventListener('{{ $item[0] ?? '' }}', {{ $item[1] ?? '' }});
-        @endforeach
+        window.{{ $item[1] ?? '' }} = window.{{ $item[1] ?? '' }} || function (event) {};
+      googletag.pubads().addEventListener('{{ $item[0] ?? '' }}', {{ $item[1] ?? '' }});
+      @endforeach
       @endif
       googletag.enableServices();
     });
@@ -191,7 +191,9 @@
         let list = document.querySelectorAll('.tmgad-new');
         let i;
         for (i = 0; i < list.length; i++) {
-          tmgad.build(list[i]);
+          googletag.cmd.push(function () {
+            tmgad.build(list[i]);
+          });
         }
         if (!tmgad.loaded) {
           document.addEventListener('DOMContentLoaded', function () {
@@ -201,6 +203,10 @@
         }
       },
       build: function (target) {
+        if (target.classList.contains('tmgad-new')) {
+          console.log('TMGAD build: Pass ' + target.getAttribute('class'));
+          return;
+        }
         try { target.classList.remove('tmgad-new'); } catch (e) {}
         let attributes = {id: '', name: '', slot: '', type: 'general', size: [], mapping: [], targeting: {}};
         try {
@@ -258,7 +264,7 @@
             googletag.pubads().refresh([slot]);
           });
         } catch (e) {
-          console.warn('TMGAD build: ' + e.message);
+          console.warn('TMGAD build: [' + attributes.id + ']' + e.message);
           return false;
         }
       },
