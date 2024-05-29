@@ -173,9 +173,8 @@
       googletag.pubads().enableAsyncRendering();
       googletag.pubads().collapseEmptyDivs();
       @if (is_array($gam_event))
-        @foreach ($gam_event as $item)
-        window.{{ $item[1] ?? '' }} = window.{{ $item[1] ?? '' }} || function (event) {};
-      googletag.pubads().addEventListener('{{ $item[0] ?? '' }}', {{ $item[1] ?? '' }});
+      @foreach ($gam_event as $item)
+      googletag.pubads().addEventListener('{{ $item[0] ?? '' }}', function (event) {window.{{ $item[1] ?? '' }}(event);});
       @endforeach
       @endif
       googletag.enableServices();
