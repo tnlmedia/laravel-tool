@@ -172,9 +172,9 @@ class TeamClient
     protected function requestUrl(string $path): string
     {
         if (App::environment('production')) {
-            $url = 'https://team.inkmaginecms.com/api/v1/';
+            $url = 'https://team.inkmaginecms.com/api/';
         } else {
-            $url = 'https://sandbox-team.inkmaginecms.com/api/v1/';
+            $url = 'https://sandbox-team.inkmaginecms.com/api/';
         }
         $path = trim($path, '/');
         return $url . $path;
