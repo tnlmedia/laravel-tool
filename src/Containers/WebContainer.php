@@ -3,8 +3,23 @@
 namespace TNLMedia\LaravelTool\Containers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
+use Exception;
 
+/**
+ * @method WebContainer setShared(string $key, $value)
+ * @method mixed getShared(string $key, $default = null)
+ * @method bool checkShared(string $key)
+ * @method WebContainer setMaterial(string $key, $value)
+ * @method mixed getMaterial(string $key, $default = null)
+ * @method bool checkMaterial(string $key)
+ * @method WebContainer setSchema(string $key, $value)
+ * @method mixed getSchema(string $key, $default = null)
+ * @method bool checkSchema(string $key)
+ * @method WebContainer robotsAllow()
+ * @method WebContainer robotsArticle()
+ * @method WebContainer robotsNextPage()
+ * @method WebContainer robotsDisabled()
+ */
 class WebContainer extends Container
 {
     /**
@@ -24,6 +39,7 @@ class WebContainer extends Container
         'shared' => [
             'id' => 0,
             'slug' => '',
+            // For multi-language: ['zh-tw' => '', 'en-us' => '']
             'url' => '',
             'title' => [
                 'basic' => '',
@@ -46,6 +62,9 @@ class WebContainer extends Container
             'published' => 0,
             'modified' => 0,
             'robots' => 'all',
+            // hreflang in ISO 3166-1 Alpha 2 or ISO 15924
+            // @see https://developers.google.com/search/docs/specialty/international/localized-versions
+            'language' => 'zh-tw',
             // Page schema type
             // @see https://schema.org/WebPage
             // @see https://schema.org/Article
@@ -74,48 +93,46 @@ class WebContainer extends Container
         'schema' => [],
     ];
 
+    /**
+     * Set default from config
+     */
     public function __construct()
     {
-        // TODO: TBD
+        $this->setShared('url', url(request()->path()));
+        $this->setShared('description.basic', config('tmg-website.site.slogan', ''));
+        $this->setShared('image.url', config('tmg-website.site.image.url', ''));
+        $this->setShared('image.width', config('tmg-website.site.image.width', 0));
+        $this->setShared('image.height', config('tmg-website.site.image.height', 0));
+        $this->setShared('keyword', implode(',', config('tmg-website.site.keyword', [])));
+        $this->setShared('published', time());
+        $this->setShared('modified', time());
+        $this->setShared('language', config('tmg-website.site.language', 'zh-tw'));
+        $this->setMaterial('page.key', request()->segment(1) ?: 'index');
+        $this->setMaterial('page.name', request()->segment(1) ?: 'index');
+        $this->setSchema(null, config('tmg-website.schema', []));
     }
 
     /**
-     * Update shared data
-     *
-     * @param string $key
-     * @param $value
-     * @return Container
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     * @throws Exception
      */
-    public function setShared(string $key, $value): Container
+    public function __call(string $name, array $arguments): mixed
     {
-        Arr::set($this->data, 'shared.' . $key, $value);
-        return $this;
-    }
+        // Robots helper
+        if (preg_match('/^robots([a-z0-9])$/i', $name, $match)) {
+            $match[1] = strtolower($match[1]);
+            $value = match ($match[1]) {
+                'article' => 'all, max-image-preview:large',
+                'nextpage' => 'noindex, follow',
+                'disabled' => 'noindex, nofollow',
+                default => 'all',
+            };
+            return $this->setShared('robots', $value);
+        }
 
-    /**
-     * Update material data
-     *
-     * @param string $key
-     * @param $value
-     * @return Container
-     */
-    public function setMaterial(string $key, $value): Container
-    {
-        Arr::set($this->data, 'material.' . $key, $value);
-        return $this;
-    }
-
-    /**
-     * Set extra schema JSON
-     *
-     * @param string $key
-     * @param $value
-     * @return Container
-     */
-    public function setSchema(string $key, $value): Container
-    {
-        Arr::set($this->data, 'schema.' . $key, $value);
-        return $this;
+        return parent::__call($name, $arguments);
     }
 
     /**
@@ -129,6 +146,42 @@ class WebContainer extends Container
 
     protected function process(): void
     {
+        $prefix = [];
+        // og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#
+        $meta = [];
 
+        // Global
+        $meta[] = '<meta http-equiv="Content-Security-Policy" content="block-all-mixed-content">';
+
+        // Basic
+        $value = trim($this->getShared('title.basic') . $this->getShared('title.extra'));
+        $value = $value ? $value . config('tmg-website.separator.name') : '';
+        $value .= config('app.name');
+        $this->setShared('title.full', $value);
+        $meta[] = '<title>' . $this->getShared('title.full') . '</title>';
+
+
+
+        $description = $this->getShared('description.basic');
+        // TODO: 150 characters
+
+        // Open graph
+        // TODO
+        $meta['og'] += [
+            'see_also' => [],
+            'section' => 'Technology',
+            'author' => [],
+            'modified' => Carbon::now()->format('c'),
+            'published' => Carbon::now()->format('c'),
+        ];
+
+        // Schema
+
+
+
+
+        // Store
+        $this->setData('html.prefix', implode(' ', $prefix));
+        $this->setData('html.meta', implode(PHP_EOL, $meta));
     }
 }

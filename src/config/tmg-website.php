@@ -6,7 +6,15 @@ return [
         'slogan' => '',
         'keyword' => [],
         // Default image path for asset() helper
-        'image' => '',
+        'image' => [
+            'url' => '',
+            'width' => 0,
+            'height' => 0,
+        ],
+        // hreflang in ISO 3166-1 Alpha 2 or ISO 15924
+        // @see https://developers.google.com/search/docs/specialty/international/localized-versions
+        'language' => 'zh-tw',
+        // For multi-language: ['zh-tw' => '', 'en-us' => '']
         'rss' => 'https://www.tnlmediagene.com/rss',
         'facebook' => [
             // Facebook App ID
@@ -22,8 +30,8 @@ return [
     ],
 
     'separator' => [
-        'name' => ' - ',
         'pager' => ' - 第:page頁',
+        'name' => ' - ',
     ],
 
     'performance' => [
