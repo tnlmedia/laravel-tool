@@ -15,6 +15,7 @@ class TMGProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/tmg-advertising.php' => config_path('tmg-advertising.php'),
+            __DIR__ . '/../config/tmg-website.php' => config_path('tmg-website.php'),
         ], 'tmg-config');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'TMG');
     }

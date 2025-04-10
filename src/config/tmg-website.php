@@ -30,7 +30,6 @@ return [
     ],
 
     'separator' => [
-        'pager' => ' - 第:page頁',
         'name' => ' - ',
     ],
 
@@ -45,7 +44,7 @@ return [
 
     // Global schema JSON
     'schema' => [
-        'organization' => [
+        'Organization' => [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
             'legalName' => 'TNL Mediagene',
@@ -71,7 +70,7 @@ return [
                 'https://www.instagram.com/tnl_mediagene/',
             ],
         ],
-        'website' => [
+        'WebSite' => [
             '@context' => 'https://schema.org',
             '@type' => 'WebSite',
             // Index URL

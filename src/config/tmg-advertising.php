@@ -46,6 +46,12 @@ return [
                 'category' => ['news'],
                 'author' => ['author1', 'author2'],
             ],
+            // Extra class (array): Optional, format: [class name]
+            'class' => [
+                'sample-class',
+            ],
+            // Inline style (string): Optional, format: 'key: value;'
+            'style' => 'min-height: 250px;',
         ],
     ],
 ];

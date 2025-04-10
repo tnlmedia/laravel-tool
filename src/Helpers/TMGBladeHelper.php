@@ -54,7 +54,7 @@ class TMGBladeHelper
     /**
      * Render ad slot HTML
      *
-     * @param string $slot
+     * @param string $name
      * @param array $config
      * @return string
      */
@@ -84,7 +84,7 @@ class TMGBladeHelper
                 continue;
             }
 
-            if ($key == 'targeting') {
+            if (in_array($key, ['targeting', 'class'])) {
                 foreach ($value as $value_key => $list) {
                     foreach ($list as $serial => $item) {
                         $value[$value_key][$serial] = strval($item);
