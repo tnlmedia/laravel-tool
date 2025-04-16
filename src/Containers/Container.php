@@ -23,7 +23,7 @@ class Container
     public function __call(string $name, array $arguments): mixed
     {
         // Quick function for first level
-        if (preg_match('/^(?:set|get|check)([a-z0-9])$/i', $name, $match)) {
+        if (preg_match('/^(set|get|check)([a-z0-9]+)$/i', $name, $match)) {
             $match[1] = strtolower($match[1]);
             $match[2] = strtolower($match[2]);
 

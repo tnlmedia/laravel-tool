@@ -67,9 +67,7 @@ class TMGBladeHelper
         // Merge targeting
         $config['targeting'] = $config['targeting'] ?? [];
         foreach ($config['targeting'] as $key => $list) {
-            foreach ($list as $serial => $item) {
-                $config['targeting'][$key][$serial] = strval($item);
-            }
+            array_map('strval', $config['targeting'][$key]);
         }
         $config['targeting'] = array_merge($this->targeting, $config['targeting']);
 
@@ -84,12 +82,13 @@ class TMGBladeHelper
                 continue;
             }
 
-            if (in_array($key, ['targeting', 'class'])) {
-                foreach ($value as $value_key => $list) {
-                    foreach ($list as $serial => $item) {
-                        $value[$value_key][$serial] = strval($item);
-                    }
+            if (in_array($key, ['targeting'])) {
+                foreach ($value as $serial => $list) {
+                    array_map('strval', $value[$serial]);
                 }
+                $config[$key] = array_merge($value, $config[$key]);
+            } elseif (in_array($key, ['class'])) {
+                array_map('strval', $value);
                 $config[$key] = array_merge($value, $config[$key]);
             }
         }
