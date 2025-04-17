@@ -3,6 +3,8 @@
 namespace TNLMedia\LaravelTool\Containers;
 
 use Exception;
+use Illuminate\Support\Arr;
+use TNLMedia\LaravelTool\Facades\TMGBlade;
 
 /**
  * @method WebContainer setShared(string $key, $value)
@@ -112,9 +114,15 @@ class WebContainer extends Container
             // Paid content
             // 0: free, 1: paid, 2: user
             'paid' => 0,
+            // Path first level
             'page' => [
                 'key' => 'index',
                 'name' => 'index',
+            ],
+            // Article type
+            'type' => [
+                'key' => '',
+                'name' => '',
             ],
             // [['type' => 'category', 'key' => 'slug', 'name' => 'name']]
             'terms' => [],
@@ -172,9 +180,13 @@ class WebContainer extends Container
     public function export(): array
     {
         $this->process();
+        $this->targeting();
         return $this->data;
     }
 
+    /**
+     * @return void
+     */
     protected function process(): void
     {
         $prefix = [];
@@ -401,5 +413,67 @@ class WebContainer extends Container
         }
         $this->setData('html.prefix', implode(' ', $value));
         $this->setData('html.meta', implode(PHP_EOL, $meta));
+    }
+
+    /**
+     * Automatically set blade targeting
+     *
+     * @return void
+     */
+    protected function targeting(): void
+    {
+        $material = $this->getData('material', []);
+        foreach ($material as $key1 => $item1) {
+            // key1 => item1
+            if (!is_array($item1)) {
+                $key = strval($key1);
+                $item = [strval($item1)];
+                TMGBlade::setTargeting($key, $item);
+                continue;
+            }
+            // key1 => []
+            $key2 = array_keys($item1)[0] ?? '';
+            $item2 = reset($item);
+            // key1 => [key2 => item2, key2 => item2]
+            if (!is_numeric($key2)) {
+                foreach ($item1 as $key2 => $item2) {
+                    $key = $key1 . '_' . $key2;
+                    $item = is_array($item2) ? array_map('strval', $item2) : [strval($item2)];
+                    TMGBlade::setTargeting($key, $item);
+                }
+                continue;
+            }
+            // key1 => [item2, item2]
+            if (!is_array($item2)) {
+                $key = strval($key1);
+                $item = array_map('strval', $item1);
+                TMGBlade::setTargeting($key, $item);
+                continue;
+            }
+            // key1 => [[type => type, key3 => item3], [type => type, key3 => item3]]
+            if (Arr::has($item2, 'type')) {
+                $list = [];
+                foreach ($item1 as $item2) {
+                    foreach ($item2 as $key3 => $item3) {
+                        if ($key3 == 'type') {
+                            continue;
+                        }
+                        $key = ($item2['type'] ?? '') . '_' . $key3;
+                        $list[$key] = $list[$key] ?? [];
+                        $list[$key][] = strval($item3);
+                    }
+                }
+                foreach ($list as $key => $item) {
+                    TMGBlade::setTargeting($key, $item);
+                }
+                continue;
+            }
+            // key1 => [[key3 => item3], [key3 => item3]]
+            foreach (array_keys($item2) as $key3) {
+                $key = $key1 . '_' . $key3;
+                $item = array_map('strval', array_column($item1, $key3));
+                TMGBlade::setTargeting($key, $item);
+            }
+        }
     }
 }

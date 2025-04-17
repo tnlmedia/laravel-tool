@@ -111,6 +111,7 @@ class TMGBladeHelper
         if (empty($config['mapping'])) {
             $config['mapping'] = [[0, 0], $config['size']];
         }
+        $config['targeting'] = array_filter($config['targeting']);
 
         return view('TMG::advertising.slot', ['config' => $config])->toHtml();
     }
