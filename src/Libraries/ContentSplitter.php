@@ -1,8 +1,8 @@
 <?php
 
-namespace TNLMedia\LaravelTool\Helpers;
+namespace TNLMedia\LaravelTool\Libraries;
 
-class ContentSplitterHelper
+class ContentSplitter
 {
     /**
      * Source title

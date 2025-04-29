@@ -14,8 +14,9 @@ class TMGProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/tmg-advertising.php' => config_path('tmg-advertising.php'),
             __DIR__ . '/../config/tmg-website.php' => config_path('tmg-website.php'),
+            __DIR__ . '/../config/tmg-analytics.php' => config_path('tmg-analytics.php'),
+            __DIR__ . '/../config/tmg-advertising.php' => config_path('tmg-advertising.php'),
         ], 'tmg-config');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'TMG');
     }

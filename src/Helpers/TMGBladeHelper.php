@@ -20,6 +20,8 @@ class TMGBladeHelper
     {
         $header = '';
 
+        // Analytics
+
         // Advertising
         $payload = [
             'gam_status' => boolval(config('tmg-advertising.gam.status', false)),

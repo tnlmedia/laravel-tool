@@ -160,7 +160,7 @@ class WebContainer extends Container
     public function __call(string $name, array $arguments): mixed
     {
         // Robots helper
-        if (preg_match('/^robots([a-z0-9])$/i', $name, $match)) {
+        if (preg_match('/^robots([a-z0-9]+)$/i', $name, $match)) {
             $match[1] = strtolower($match[1]);
             $value = match ($match[1]) {
                 'article' => 'all, max-image-preview:large',
@@ -426,6 +426,9 @@ class WebContainer extends Container
         foreach ($material as $key1 => $item1) {
             // key1 => item1
             if (!is_array($item1)) {
+                if ($item1 == '') {
+                    continue;
+                }
                 $key = strval($key1);
                 $item = [strval($item1)];
                 TMGBlade::setTargeting($key, $item);
@@ -433,10 +436,13 @@ class WebContainer extends Container
             }
             // key1 => []
             $key2 = array_keys($item1)[0] ?? '';
-            $item2 = reset($item);
+            $item2 = reset($item1);
             // key1 => [key2 => item2, key2 => item2]
             if (!is_numeric($key2)) {
                 foreach ($item1 as $key2 => $item2) {
+                    if ($item2 == '') {
+                        continue;
+                    }
                     $key = $key1 . '_' . $key2;
                     $item = is_array($item2) ? array_map('strval', $item2) : [strval($item2)];
                     TMGBlade::setTargeting($key, $item);
@@ -445,6 +451,9 @@ class WebContainer extends Container
             }
             // key1 => [item2, item2]
             if (!is_array($item2)) {
+                if (empty($item2)) {
+                    continue;
+                }
                 $key = strval($key1);
                 $item = array_map('strval', $item1);
                 TMGBlade::setTargeting($key, $item);
@@ -464,6 +473,9 @@ class WebContainer extends Container
                     }
                 }
                 foreach ($list as $key => $item) {
+                    if (empty($item)) {
+                        continue;
+                    }
                     TMGBlade::setTargeting($key, $item);
                 }
                 continue;
@@ -472,6 +484,9 @@ class WebContainer extends Container
             foreach (array_keys($item2) as $key3) {
                 $key = $key1 . '_' . $key3;
                 $item = array_map('strval', array_column($item1, $key3));
+                if (empty($item)) {
+                    continue;
+                }
                 TMGBlade::setTargeting($key, $item);
             }
         }
