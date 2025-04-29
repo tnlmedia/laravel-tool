@@ -115,6 +115,17 @@ class Seeker
     }
 
     /**
+     * Negative Key conditions
+     *
+     * @param $value
+     * @return $this
+     */
+    public function primaryKeyNot($value): Seeker
+    {
+        return $this->conditionNot([$this->entity->getKeyName() => $value]);
+    }
+
+    /**
      * Add sort by column
      *
      * @param string $column
