@@ -48,8 +48,8 @@ return [
             'article/*',
         ],
     ],
-    // Charbeat
-    'charbeat' => [
+    // Chartbeat
+    'chartbeat' => [
         // Account ID
         'account' => '',
     ],
