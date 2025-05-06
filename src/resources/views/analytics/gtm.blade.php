@@ -7,7 +7,7 @@
   @endif
   <script>
     @php
-      $list[] = $slug . "GtmLayer.push(arguments);";
+      $list[] = $slug . "GtmLayer.push(...arguments);";
       echo "window." . $slug . "GtmLayer = window." . $slug . "GtmLayer || [];";
       echo PHP_EOL . $slug . "GtmLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});";
       if ($item['layer'] ?? false) {
@@ -31,6 +31,7 @@
       @php
         echo implode(PHP_EOL, $list);
       @endphp
+
         return Array.prototype.push.apply(this, arguments);
     };
   </script>

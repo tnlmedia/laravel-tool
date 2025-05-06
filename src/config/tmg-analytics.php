@@ -1,7 +1,23 @@
 <?php
 return [
+    // Track event
+    'track' => [
+        // Event data attribute prefix
+        // Event name: data-track-event
+        // Event label: data-track-label
+        'prefix' => 'data-track',
+        // Class to track element click
+        // GA4: gtag('event', event, {action: 'click', label: label});
+        // GTM: gtmDataLayer.push({event: event, eventType: 'click', eventValue: label});
+        'click' => 'track-click',
+        // Class to track element view
+        // GA4: gtag('event', event, {action: 'impression', label: label});
+        // GTM: gtmDataLayer.push({event: event, eventType: 'impression', eventValue: label});
+        'impression' => 'track-impression',
+    ],
     // Google Analytics 4
     'ga4' => [
+        // Trigger event: slug_gtag('event', event, {});
         'core' => [
             // Measurement ID: G-XXXXXXX
             'id' => '',
@@ -16,6 +32,7 @@ return [
     ],
     // Google Tag Manager
     'gtm' => [
+        // Put datalayer: slugGtmLayer.push({});
         'core' => [
             // ID: GTM-XXXXXXX
             'id' => '',

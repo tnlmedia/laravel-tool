@@ -88,6 +88,11 @@ class TMGBladeHelper
             'material' => $this->material,
         ];
         $header .= view('TMG::analytics.chartbeat', $payload)->toHtml();
+        $payload = [
+            'config' => config('tmg-analytics.track', []),
+            'material' => $this->material,
+        ];
+        $header .= view('TMG::analytics.track', $payload)->toHtml();
 
         // Advertising
         $payload = [

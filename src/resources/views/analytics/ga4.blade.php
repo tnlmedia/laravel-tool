@@ -17,20 +17,20 @@
       foreach ($item['event'] ?? [] as $type => $event) {
           switch ($type) {
               case 'author':
-                  foreach ($material['authors'] ?? [] as $item) {
-                      if (!($item['name'] ?? false)) {
-                          contineue;
+                  foreach ($material['authors'] ?? [] as $author) {
+                      if (!($author['name'] ?? false)) {
+                          continue;
                       }
-                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $item['name'] . "'});";
+                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $author['name'] . "'});";
                   }
                   break;
 
               case 'term':
-                  foreach ($material['terms'] ?? [] as $item) {
-                      if (!($item['name'] ?? false)) {
-                          contineue;
+                  foreach ($material['terms'] ?? [] as $term) {
+                      if (!($term['name'] ?? false)) {
+                          continue;
                       }
-                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $item['name'] . "'});";
+                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $term['name'] . "'});";
                   }
                   break;
           }
