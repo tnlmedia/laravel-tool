@@ -67,7 +67,7 @@ class ApiContainer extends Container
         $code = intval(substr($export['code'], 0, 3));
         $code = $code < 100 || $code > 999 ? 500 : $code;
         return response()
-            ->json($export(), $code)
+            ->json($export, $code)
             ->withHeaders([
                 'Cache-Control' => 'no-cache, no-store, must-revalidate',
             ]);
