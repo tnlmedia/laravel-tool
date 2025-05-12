@@ -93,6 +93,18 @@ class GatewayClient
     }
 
     /**
+     * Set access token
+     *
+     * @param string $token
+     * @return $this
+     */
+    public function setAccessToken(string $token): GatewayClient
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    /**
      * Access token
      *
      * @param bool $reset

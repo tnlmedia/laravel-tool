@@ -91,6 +91,18 @@ class CabinetClient
     }
 
     /**
+     * Set access token
+     *
+     * @param string $token
+     * @return $this
+     */
+    public function setAccessToken(string $token): CabinetClient
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    /**
      * Access token
      *
      * @param bool $reset
