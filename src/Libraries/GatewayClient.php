@@ -44,10 +44,12 @@ class GatewayClient
             }
 
             // Response
-            $response += ['code' => 0, 'data' => [], 'hint' => ''];
+            $response += ['code' => 0, 'data' => [], 'message' => '', 'hint' => ''];
             if ($response['code'] != 20000) {
-                throw new Exception('GatewayClient exception: (' . $response['hint'] . ') ' . $response['message'],
-                    $response['code']);
+                throw new Exception(
+                    'GatewayClient api: (' . $response['hint'] . ') ' . $response['message'],
+                    $response['code']
+                );
             }
             return $response['data'] ?: [];
         }
@@ -82,14 +84,52 @@ class GatewayClient
             }
 
             // Response
-            $response += ['code' => 0, 'data' => [], 'hint' => ''];
+            $response += ['code' => 0, 'data' => [], 'message' => '', 'hint' => ''];
             if ($response['code'] != 20000) {
-                throw new Exception('GatewayClient exception: (' . $response['hint'] . ') ' . $response['message'],
-                    $response['code']);
+                throw new Exception(
+                    'GatewayClient upload: (' . $response['hint'] . ') ' . $response['message'],
+                    $response['code']
+                );
             }
             return $response['data'] ?: [];
         }
         return [];
+    }
+
+    /**
+     * Oauth request
+     *
+     * @param array $parameters
+     * @return array
+     * @throws Throwable
+     */
+    public function oauth(array $parameters = []): array
+    {
+        // Token
+        $response = $this->request($this->requestUrl('token'), 'POST', [
+            'json' => $parameters,
+        ]);
+        $response = json_decode($response, true);
+
+        // Response
+        $response += [
+            'token_type' => 0,
+            'access_token' => [],
+            'expires_in' => '',
+            'code' => 0,
+            'message' => '',
+            'hint' => '',
+        ];
+        if (empty($response['access_token'])) {
+            throw new Exception(
+                'GatewayClient oauth: (' . $response['hint'] . ') ' . $response['message'],
+                $response['code']
+            );
+        }
+        $this->setAccessToken(strval($response['access_token']));
+
+        // Current member
+        return $this->api('members/current');
     }
 
     /**
@@ -163,13 +203,13 @@ class GatewayClient
         try {
             $response = (new Client())->request($method, $url, $config);
         } catch (Throwable $e) {
-            throw new Exception('GatewayClient[' . $url . '] failed: ' . $e->getMessage(), $e->getCode());
+            throw new Exception('GatewayClient[' . $url . '] request: ' . $e->getMessage(), $e->getCode());
         }
 
         // Get response
         if ($response->getStatusCode() >= 400) {
             throw new Exception(
-                'GatewayClient[' . $url . '] failed: ' . $response->getBody()->getContents(),
+                'GatewayClient[' . $url . '] request: ' . $response->getBody()->getContents(),
                 $response->getStatusCode()
             );
         }

@@ -44,9 +44,9 @@ class TeamClient
             }
 
             // Response
-            $response += ['code' => 0, 'data' => []];
+            $response += ['code' => 0, 'data' => [], 'message' => ''];
             if ($response['code'] != 200) {
-                throw new Exception('TeamClient exception: ' . $response['message'], $response['code']);
+                throw new Exception('TeamClient api: ' . $response['message'], $response['code']);
             }
             return $response['data'] ?: [];
         }
@@ -81,9 +81,9 @@ class TeamClient
             }
 
             // Response
-            $response += ['code' => 0, 'data' => []];
+            $response += ['code' => 0, 'data' => [], 'message' => ''];
             if ($response['code'] != 20000) {
-                throw new Exception('TeamClient exception: ' . $response['message'], $response['code']);
+                throw new Exception('TeamClient upload: ' . $response['message'], $response['code']);
             }
             return $response['data'] ?: [];
         }
@@ -149,13 +149,13 @@ class TeamClient
         try {
             $response = (new Client())->request($method, $url, $config);
         } catch (Throwable $e) {
-            throw new Exception('TeamClient[' . $url . '] failed: ' . $e->getMessage(), $e->getCode());
+            throw new Exception('TeamClient[' . $url . '] request: ' . $e->getMessage(), $e->getCode());
         }
 
         // Get response
         if ($response->getStatusCode() >= 400) {
             throw new Exception(
-                'TeamClient[' . $url . '] failed: ' . $response->getBody()->getContents(),
+                'TeamClient[' . $url . '] request: ' . $response->getBody()->getContents(),
                 $response->getStatusCode()
             );
         }

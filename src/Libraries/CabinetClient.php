@@ -44,9 +44,12 @@ class CabinetClient
             }
 
             // Response
-            $response += ['code' => 0, 'data' => [], 'hint' => ''];
+            $response += ['code' => 0, 'data' => [], 'message' => '', 'hint' => ''];
             if ($response['code'] != 200) {
-                throw new Exception('CabinetClient exception: (' . $response['hint'] . ') ' . $response['message'], $response['code']);
+                throw new Exception(
+                    'CabinetClient api: (' . $response['hint'] . ') ' . $response['message'],
+                    $response['code']
+                );
             }
             return $response['data'] ?: [];
         }
@@ -81,9 +84,12 @@ class CabinetClient
             }
 
             // Response
-            $response += ['code' => 0, 'data' => [], 'hint' => ''];
+            $response += ['code' => 0, 'data' => [], 'message' => '', 'hint' => ''];
             if ($response['code'] != 200) {
-                throw new Exception('CabinetClient exception: (' . $response['hint'] . ') ' . $response['message'], $response['code']);
+                throw new Exception(
+                    'CabinetClient upload: (' . $response['hint'] . ') ' . $response['message'],
+                    $response['code']
+                );
             }
             return $response['data'] ?: [];
         }
@@ -161,13 +167,13 @@ class CabinetClient
         try {
             $response = (new Client())->request($method, $url, $config);
         } catch (Throwable $e) {
-            throw new Exception('CabinetClient[' . $url . '] failed: ' . $e->getMessage(), $e->getCode());
+            throw new Exception('CabinetClient[' . $url . '] request: ' . $e->getMessage(), $e->getCode());
         }
 
         // Get response
         if ($response->getStatusCode() >= 400) {
             throw new Exception(
-                'CabinetClient[' . $url . '] failed: ' . $response->getBody()->getContents(),
+                'CabinetClient[' . $url . '] request: ' . $response->getBody()->getContents(),
                 $response->getStatusCode()
             );
         }
