@@ -23,9 +23,10 @@ class Container
     public function __call(string $name, array $arguments): mixed
     {
         // Quick function for first level
-        if (preg_match('/^(set|get|check)([a-z0-9]+)$/i', $name, $match)) {
+        if (preg_match('/^(set|push|get|check)([a-z0-9]+)$/i', $name, $match)) {
             $match[1] = strtolower($match[1]);
-            $match[2] = strtolower($match[2]);
+            $match[2] = preg_split('/(?=[A-Z])/', $match[2], -1, PREG_SPLIT_NO_EMPTY);
+            $match[2] = strtolower(implode('.', $match[2]));
 
             $key = trim($match[2] . '.' . strtolower(strval($arguments[0] ?? '')), '.');
             if ($match[1] == 'set') {
@@ -33,6 +34,20 @@ class Container
                     throw new Exception('Method ' . $name . ' not found');
                 }
                 return $this->setData($key, $arguments[1] ?? null);
+            } elseif ($match[1] == 'push') {
+                if (!Arr::has($this->data, $match[2])) {
+                    throw new Exception('Method ' . $name . ' not found');
+                }
+
+                $current = $this->getData($key);
+                if (!isset($current)) {
+                    return $this->setData($key, $arguments[1] ?? null);
+                }
+                if (is_array($current)) {
+                    $current[] = $arguments[1] ?? null;
+                    return $this->setData($key, $current);
+                }
+                return $this->setData($key, $current . ($arguments[1] ?? ''));
             } elseif ($match[1] == 'get') {
                 return $this->getData($key, $arguments[1] ?? null);
             } elseif ($match[1] == 'check') {

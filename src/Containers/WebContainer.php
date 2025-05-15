@@ -9,9 +9,11 @@ use TNLMedia\LaravelTool\Facades\TMGBlade;
  * @method WebContainer setShared(string $key, $value)
  * @method mixed getShared(string $key, $default = null)
  * @method bool checkShared(string $key)
+ *
  * @method WebContainer setMaterial(string $key, $value)
  * @method mixed getMaterial(string $key, $default = null)
  * @method bool checkMaterial(string $key)
+ *
  * @method WebContainer setSchema(string $key, $value)
  * @method mixed getSchema(string $key, $default = null)
  * @method bool checkSchema(string $key)
