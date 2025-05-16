@@ -6,21 +6,157 @@ use Exception;
 use TNLMedia\LaravelTool\Facades\TMGBlade;
 
 /**
+ * == Shared Properties ==
  * @method WebContainer setShared(string $key, $value)
  * @method mixed getShared(string $key, $default = null)
  * @method bool checkShared(string $key)
+ * @method WebContainer setSharedId(int $value)
+ * @method WebContainer pushSharedId(int $value)
+ * @method mixed getSharedId($default = null)
+ * @method bool checkSharedId(string $key)
+ * @method WebContainer setSharedSlug(string $value)
+ * @method WebContainer pushSharedSlug(string $value)
+ * @method mixed getSharedSlug($default = null)
+ * @method bool checkSharedSlug(string $key)
+ * @method WebContainer setSharedUrl(string $value)
+ * @method WebContainer pushSharedUrl(string $value)
+ * @method mixed getSharedUrl($default = null)
+ * @method bool checkSharedUrl(string $key)
+ * @method WebContainer setSharedTitleBasic(string $value)
+ * @method WebContainer pushSharedTitleBasic(string $value)
+ * @method mixed getSharedTitleBasic($default = null)
+ * @method bool checkSharedTitleBasic(string $key)
+ * @method WebContainer setSharedTitleExtra(string $value)
+ * @method WebContainer pushSharedTitleExtra(string $value)
+ * @method mixed getSharedTitleExtra($default = null)
+ * @method bool checkSharedTitleExtra(string $key)
+ * @method WebContainer setSharedDescriptionBasic(string $value)
+ * @method WebContainer pushSharedDescriptionBasic(string $value)
+ * @method mixed getSharedDescriptionBasic($default = null)
+ * @method bool checkSharedDescriptionBasic(string $key)
+ * @method WebContainer setSharedDescriptionExtra(string $value)
+ * @method WebContainer pushSharedDescriptionExtra(string $value)
+ * @method mixed getSharedDescriptionExtra($default = null)
+ * @method bool checkSharedDescriptionExtra(string $key)
+ * @method WebContainer setSharedImageUrl(string $value)
+ * @method WebContainer pushSharedImageUrl(string $value)
+ * @method mixed getSharedImageUrl($default = null)
+ * @method bool checkSharedImageUrl(string $key)
+ * @method WebContainer setSharedImageWidth(int $value)
+ * @method WebContainer pushSharedImageWidth(int $value)
+ * @method mixed getSharedImageWidth($default = null)
+ * @method bool checkSharedImageWidth(string $key)
+ * @method WebContainer setSharedImageHeight(int $value)
+ * @method WebContainer pushSharedImageHeight(int $value)
+ * @method mixed getSharedImageHeight($default = null)
+ * @method bool checkSharedImageHeight(string $key)
+ * @method WebContainer setSharedKeyword(string $value)
+ * @method WebContainer pushSharedKeyword(string $value)
+ * @method mixed getSharedKeyword($default = null)
+ * @method bool checkSharedKeyword(string $key)
+ * @method WebContainer setSharedPublished(int $value)
+ * @method WebContainer pushSharedPublished(int $value)
+ * @method mixed getSharedPublished($default = null)
+ * @method bool checkSharedPublished(string $key)
+ * @method WebContainer setSharedModified(int $value)
+ * @method WebContainer pushSharedModified(int $value)
+ * @method mixed getSharedModified($default = null)
+ * @method bool checkSharedModified(string $key)
+ * @method WebContainer setSharedRobots(string $value)
+ * @method WebContainer pushSharedRobots(string $value)
+ * @method mixed getSharedRobots($default = null)
+ * @method bool checkSharedRobots(string $key)
+ * @method WebContainer setSharedLanguage(string $value)
+ * @method WebContainer pushSharedLanguage(string $value)
+ * @method mixed getSharedLanguage($default = null)
+ * @method bool checkSharedLanguage(string $key)
+ * @method WebContainer setSharedType(string $value)
+ * @method WebContainer pushSharedType(string $value)
+ * @method mixed getSharedType($default = null)
+ * @method bool checkSharedType(string $key)
+ * @method WebContainer setSharedBody(string $value)
+ * @method WebContainer pushSharedBody(string $value)
+ * @method mixed getSharedBody($default = null)
+ * @method bool checkSharedBody(string $key)
  *
- * @method WebContainer setMaterial(string $key, $value)
- * @method mixed getMaterial(string $key, $default = null)
- * @method bool checkMaterial(string $key)
- *
- * @method WebContainer setSchema(string $key, $value)
- * @method mixed getSchema(string $key, $default = null)
- * @method bool checkSchema(string $key)
+ * == Robots quick set ==
  * @method WebContainer robotsAllow()
  * @method WebContainer robotsArticle()
  * @method WebContainer robotsNextPage()
  * @method WebContainer robotsDisabled()
+ *
+ * == Page type quick set ==
+ * @method WebContainer typeWebPage()
+ * @method WebContainer typeAboutPage()
+ * @method WebContainer typeCheckoutPage()
+ * @method WebContainer typeCollectionPage()
+ * @method WebContainer typeContactPage()
+ * @method WebContainer typeFAQPage()
+ * @method WebContainer typeItemPage()
+ * @method WebContainer typeMedicalWebPage()
+ * @method WebContainer typeProfilePage()
+ * @method WebContainer typeQAPage()
+ * @method WebContainer typeRealEstateListing()
+ * @method WebContainer typeSearchResultsPage()
+ * @method WebContainer typeArticle()
+ * @method WebContainer typeAdvertiserContentArticle()
+ * @method WebContainer typeNewsArticle()
+ * @method WebContainer typeReport()
+ * @method WebContainer typeSatiricalArticle()
+ * @method WebContainer typeScholarlyArticle()
+ * @method WebContainer typeSocialMediaPosting()
+ * @method WebContainer typeTechArticle()
+ *
+ * == Material Properties ==
+ * @method WebContainer setMaterial(string $key, $value)
+ * @method mixed getMaterial(string $key, $default = null)
+ * @method bool checkMaterial(string $key)
+ * @method WebContainer setMaterialCabinet(int $value)
+ * @method WebContainer pushMaterialCabinet(int $value)
+ * @method mixed getMaterialCabinet($default = null)
+ * @method bool checkMaterialCabinet(string $key)
+ * @method WebContainer setMaterialAdvertising(int $value)
+ * @method WebContainer pushMaterialAdvertising(int $value)
+ * @method mixed getMaterialAdvertising($default = null)
+ * @method bool checkMaterialAdvertising(string $key)
+ * @method WebContainer setMaterialSponsor(int $value)
+ * @method WebContainer pushMaterialSponsor(int $value)
+ * @method mixed getMaterialSponsor($default = null)
+ * @method bool checkMaterialSponsor(string $key)
+ * @method WebContainer setMaterialPaid(int $value)
+ * @method WebContainer pushMaterialPaid(int $value)
+ * @method mixed getMaterialPaid($default = null)
+ * @method bool checkMaterialPaid(string $key)
+ * @method WebContainer setMaterialPageKey(string $value)
+ * @method WebContainer pushMaterialPageKey(string $value)
+ * @method mixed getMaterialPageKey($default = null)
+ * @method bool checkMaterialPageKey(string $key)
+ * @method WebContainer setMaterialPageName(string $value)
+ * @method WebContainer pushMaterialPageName(string $value)
+ * @method mixed getMaterialPageName($default = null)
+ * @method bool checkMaterialPageName(string $key)
+ * @method WebContainer setMaterialTypeKey(string $value)
+ * @method WebContainer pushMaterialTypeKey(string $value)
+ * @method mixed getMaterialTypeKey($default = null)
+ * @method bool checkMaterialTypeKey(string $key)
+ * @method WebContainer setMaterialTypeName(string $value)
+ * @method WebContainer pushMaterialTypeName(string $value)
+ * @method mixed getMaterialTypeName($default = null)
+ * @method bool checkMaterialTypeName(string $key)
+ * @method WebContainer setMaterialTerms(array $value)
+ * @method WebContainer pushMaterialTerms(array $value)
+ * @method mixed getMaterialTerms($default = null)
+ * @method bool checkMaterialTerms(string $key)
+ * @method WebContainer setMaterialAuthors(array $value)
+ * @method WebContainer pushMaterialAuthors(array $value)
+ * @method mixed getMaterialAuthors($default = null)
+ * @method bool checkMaterialAuthors(string $key)
+ *
+ * == Schema Properties ==
+ * @method WebContainer setSchema(string $key, array $value)
+ * @method WebContainer pushSchema(array $value)
+ * @method mixed getSchema(string $key, $default = null)
+ * @method bool checkSchema(string $key)
  */
 class WebContainer extends Container
 {
@@ -138,17 +274,17 @@ class WebContainer extends Container
      */
     public function __construct()
     {
-        $this->setShared('url', url(request()->path()));
-        $this->setShared('description.basic', config('tmg-website.site.slogan', ''));
-        $this->setShared('image.url', config('tmg-website.site.image.url', ''));
-        $this->setShared('image.width', config('tmg-website.site.image.width', 0));
-        $this->setShared('image.height', config('tmg-website.site.image.height', 0));
-        $this->setShared('keyword', implode(',', config('tmg-website.site.keyword', [])));
-        $this->setShared('published', time());
-        $this->setShared('modified', time());
-        $this->setShared('language', config('tmg-website.site.language', 'zh-tw'));
-        $this->setMaterial('page.key', request()->segment(1) ?: 'index');
-        $this->setMaterial('page.name', request()->segment(1) ?: 'index');
+        $this->setSharedUrl(url(request()->path()));
+        $this->setSharedDescriptionBasic(config('tmg-website.site.slogan', ''));
+        $this->setSharedImageUrl(config('tmg-website.site.image.url', ''));
+        $this->setSharedImageWidth(config('tmg-website.site.image.width', 0));
+        $this->setSharedImageHeight(config('tmg-website.site.image.height', 0));
+        $this->setSharedKeyword(implode(',', config('tmg-website.site.keyword', [])));
+        $this->setSharedPublished(time());
+        $this->setSharedModified(time());
+        $this->setSharedLanguage(config('tmg-website.site.language', 'zh-tw'));
+        $this->setMaterialPageKey(request()->segment(1) ?: 'index');
+        $this->setMaterialPageName(request()->segment(1) ?: 'index');
         $this->setSchema(null, config('tmg-website.schema', []));
     }
 
@@ -169,7 +305,17 @@ class WebContainer extends Container
                 'disabled' => 'noindex, nofollow',
                 default => 'all',
             };
-            return $this->setShared('robots', $value);
+            return $this->setSharedRobots($value);
+        }
+
+        // Type helper
+        if (preg_match('/^type([a-z0-9]+)$/i', $name, $match)) {
+            if (preg_match('/^(?:' . implode('|', self::PAGE_TYPE) . ')$/i', $match[1])) {
+                return $this->setSharedType($match[1]);
+            }
+            if (preg_match('/^(?:' . implode('|', self::ARTICLE_TYPE) . ')$/i', $match[1])) {
+                return $this->setSharedType($match[1]);
+            }
         }
 
         return parent::__call($name, $arguments);
@@ -201,7 +347,7 @@ class WebContainer extends Container
         $meta[] = '<meta http-equiv="Content-Security-Policy" content="block-all-mixed-content">';
 
         // Title
-        $value = trim($this->getShared('title.basic') . $this->getShared('title.extra'));
+        $value = trim($this->getSharedTitleBasic() . $this->getSharedTitleExtra());
         $value = $value ? $value . config('tmg-website.separator.name', ' - ') : '';
         $value .= config('app.name');
         $this->setShared('title.full', $value);
@@ -224,41 +370,41 @@ class WebContainer extends Container
         }
 
         // Url
-        $value = $this->getShared('url');
+        $value = $this->getSharedUrl();
         if (is_array($value)) {
-            $meta[] = '<link rel="canonical" href="' . $value[$this->getShared('language')] ?? reset($value) . '">';
+            $meta[] = '<link rel="canonical" href="' . $value[$this->getSharedLanguage()] ?? reset($value) . '">';
             foreach ($value as $key => $item) {
                 $meta[] = '<link rel="alternate" href="' . $item . '" hreflang="' . $key . '">';
             }
         } else {
-            $meta[] = '<link rel="canonical" href="' . $this->getShared('url') . '">';
-            $meta[] = '<link rel="alternate" href="' . $this->getShared('url') . '" hreflang="' . $this->getShared('language') . '">';
+            $meta[] = '<link rel="canonical" href="' . $this->getSharedUrl() . '">';
+            $meta[] = '<link rel="alternate" href="' . $this->getSharedUrl() . '" hreflang="' . $this->getSharedLanguage() . '">';
         }
         $value = config('tmg-website.site.rss', []);
-        $value = is_array($value) ? $value : [$this->getShared('language') => $value];
+        $value = is_array($value) ? $value : [$this->getSharedLanguage() => $value];
         foreach ($value as $key => $item) {
             $meta[] = '<link rel="alternate" type="application/rss+xml" title="' . config('app.name') . '" href="' . $item . '" hreflang="' . $key . '">';
         }
 
         // Detail
-        $value = $this->getShared('description.basic');
+        $value = $this->getSharedDescriptionBasic();
         $value = mb_strlen($value) > 150 ? mb_substr($value, 0, 150) . '...' : $value;
-        $value .= $this->getShared('description.extra');
+        $value .= $this->getSharedDescriptionExtra();
         $this->setShared('description.full', $value);
         $meta[] = '<meta name="description" content="' . $this->getShared('description.full') . '">';
-        if ($value = $this->getShared('keyword')) {
+        if ($value = $this->getSharedKeyword()) {
             $meta[] = '<meta name="keywords" content="' . $value . '">';
         }
-        $meta[] = '<meta name="robots" content="' . $this->getShared('robots') . '">';
-        foreach ($this->getMaterial('authors', []) as $item) {
+        $meta[] = '<meta name="robots" content="' . $this->getSharedRobots() . '">';
+        foreach ($this->getMaterialAuthors([]) as $item) {
             $item += ['name' => ''];
             if (empty($item['name'])) {
                 continue;
             }
             $meta[] = '<meta name="author" content="' . $item['name'] . '">';
         }
-        if (in_array($this->getShared('type'), self::ARTICLE_TYPE)) {
-            if ($value = $this->getShared('keyword')) {
+        if (in_array($this->getSharedType(), self::ARTICLE_TYPE)) {
+            if ($value = $this->getSharedKeyword()) {
                 $meta[] = '<meta name="news_keywords" content="' . $value . '">';
             }
             $meta[] = '<meta name="Googlebot-News" content="all">';
@@ -273,35 +419,35 @@ class WebContainer extends Container
 
         // Open graph
         $prefix['og'] = 'http://ogp.me/ns#';
-        if (in_array($this->getShared('type'), self::ARTICLE_TYPE)) {
+        if (in_array($this->getSharedType(), self::ARTICLE_TYPE)) {
             $meta[] = '<meta property="og:type" content="article">';
         } else {
             $meta[] = '<meta property="og:type" content="website">';
         }
-        $value = $this->getShared('url');
+        $value = $this->getSharedUrl();
         if (is_array($value)) {
-            $meta[] = '<meta property="og:url" content="' . $value[$this->getShared('language')] ?? reset($value) . '">';
+            $meta[] = '<meta property="og:url" content="' . $value[$this->getSharedLanguage()] ?? reset($value) . '">';
         } else {
-            $meta[] = '<meta property="og:url" content="' . $this->getShared('url') . '">';
+            $meta[] = '<meta property="og:url" content="' . $this->getSharedUrl() . '">';
         }
         $meta[] = '<meta property="og:site_name" content="' . config('app.name') . '">';
         $meta[] = '<meta property="og:title" content="' . $this->getShared('title.full') . '">';
         $meta[] = '<meta property="og:description" content="' . $this->getShared('description.full') . '">';
-        if ($value = $this->getShared('image.url')) {
+        if ($value = $this->getSharedImageUrl()) {
             $meta[] = '<meta property="og:image" content="' . $value . '">';
-            if ($value = $this->getShared('image.width')) {
+            if ($value = $this->getSharedImageWidth()) {
                 $meta[] = '<meta property="og:image:width" content="' . $value . '">';
             }
-            if ($value = $this->getShared('image.height')) {
+            if ($value = $this->getSharedImageHeight()) {
                 $meta[] = '<meta property="og:image:height" content="' . $value . '">';
             }
         }
-        if (in_array($this->getShared('type'), self::ARTICLE_TYPE)) {
+        if (in_array($this->getSharedType(), self::ARTICLE_TYPE)) {
             $prefix['article'] = 'http://ogp.me/ns/article#';
             if ($value = config('tmg-website.site.facebook.fanpage')) {
                 $meta[] = '<meta property="article:publisher" content="' . $value . '">';
             }
-            foreach ($this->getMaterial('authors', []) as $item) {
+            foreach ($this->getMaterialAuthors([]) as $item) {
                 $item += ['name' => ''];
                 if (empty($item['name'])) {
                     continue;
@@ -309,7 +455,7 @@ class WebContainer extends Container
                 $meta[] = '<meta property="article:author" content="' . $item['name'] . '">';
             }
             $reset = false;
-            foreach ($this->getMaterial('terms') as $item) {
+            foreach ($this->getMaterialTerms([]) as $item) {
                 $item += ['name' => ''];
                 if (empty($item['name'])) {
                     continue;
@@ -322,8 +468,8 @@ class WebContainer extends Container
                 }
             }
         }
-        $meta[] = '<meta property="article:modified_time" content="' . date('c', $this->getShared('modified')) . '">';
-        $meta[] = '<meta property="article:published_time" content="' . date('c', $this->getShared('published')) . '">';
+        $meta[] = '<meta property="article:modified_time" content="' . date('c', $this->getSharedModified()) . '">';
+        $meta[] = '<meta property="article:published_time" content="' . date('c', $this->getSharedPublished()) . '">';
         if ($value = config('tmg-website.site.facebook.application')) {
             $prefix['fb'] = 'http://ogp.me/ns/fb#';
             $meta[] = '<meta property="fb:app_id" content="' . $value . '">';
@@ -337,37 +483,37 @@ class WebContainer extends Container
             $meta[] = '<meta name="twitter:site" content="@' . $value . '">';
             $meta[] = '<meta name="twitter:creator" content="@' . $value . '">';
         }
-        if ($value = $this->getShared('image.url')) {
+        if ($value = $this->getSharedImageUrl()) {
             $meta[] = '<meta name="twitter:image" content="' . $value . '">';
         }
 
         // Schema
-        $type = $this->getShared('type');
+        $type = $this->getSharedType();
         if (in_array($type, self::ARTICLE_TYPE)) {
             $item = [
                 '@context' => 'https://schema.org',
                 '@type' => $type,
                 'headline' => $this->getShared('title.full'),
-                'mainEntityOfPage' => $this->getShared('url'),
-                'datePublished' => date('c', $this->getShared('published')),
-                'dateModified' => date('c', $this->getShared('modified')),
+                'mainEntityOfPage' => $this->getSharedUrl(),
+                'datePublished' => date('c', $this->getSharedPublished()),
+                'dateModified' => date('c', $this->getSharedModified()),
                 'author' => array_column($this->getMaterial('authors', []), 'name'),
                 'keywords' => array_column($this->getMaterial('terms', []), 'name'),
                 'description' => $this->getShared('description.full'),
             ];
-            if ($value = $this->getShared('image.url')) {
+            if ($value = $this->getSharedImageUrl()) {
                 $item['image'] = [
                     '@type' => 'ImageObject',
                     'contentUrl' => $value,
                 ];
-                if ($value = $this->getShared('image.width')) {
+                if ($value = $this->getSharedImageWidth()) {
                     $item['image']['width'] = $value;
                 }
-                if ($value = $this->getShared('image.height')) {
+                if ($value = $this->getSharedImageHeight()) {
                     $item['image']['height'] = $value;
                 }
             }
-            if ($value = $this->getShared('body')) {
+            if ($value = $this->getSharedBody()) {
                 $item['articleBody'] = $value;
             }
         } else {
@@ -377,25 +523,25 @@ class WebContainer extends Container
                 '@type' => $type,
                 'name' => $this->getShared('title.full'),
                 'description' => $this->getShared('description.full'),
-                'dateCreated' => date('c', $this->getShared('published')),
-                'dateModified' => date('c', $this->getShared('modified')),
+                'dateCreated' => date('c', $this->getSharedPublished()),
+                'dateModified' => date('c', $this->getSharedModified()),
                 'primaryImageOfPage' => [
                     '@type' => 'ImageObject',
                     'contentUrl' => $this->getMeta('image', ''),
                 ],
             ];
-            if ($value = $this->getShared('keyword')) {
+            if ($value = $this->getSharedKeyword()) {
                 $item['keywords'] = explode(',', $value);
             }
-            if ($value = $this->getShared('image.url')) {
+            if ($value = $this->getSharedImageUrl()) {
                 $item['primaryImageOfPage'] = [
                     '@type' => 'ImageObject',
                     'contentUrl' => $value,
                 ];
-                if ($value = $this->getShared('image.width')) {
+                if ($value = $this->getSharedImageWidth()) {
                     $item['primaryImageOfPage']['width'] = $value;
                 }
-                if ($value = $this->getShared('image.height')) {
+                if ($value = $this->getSharedImageHeight()) {
                     $item['primaryImageOfPage']['height'] = $value;
                 }
             }
@@ -403,10 +549,14 @@ class WebContainer extends Container
         $this->setSchema($type, $item);
 
         // JSON
-        $meta[] = '<script type="application/json" id="config-material">' . json_encode($this->getMaterial(null, []),
-                JSON_UNESCAPED_UNICODE) . '</script>';
-        $meta[] = '<script type="application/json" id="config-shared">' . json_encode($this->getShared(null, []),
-                JSON_UNESCAPED_UNICODE) . '</script>';
+        $meta[] = '<script type="application/json" id="config-material">' . json_encode(
+                $this->getMaterial(null, []),
+                JSON_UNESCAPED_UNICODE
+            ) . '</script>';
+        $meta[] = '<script type="application/json" id="config-shared">' . json_encode(
+                $this->getShared(null, []),
+                JSON_UNESCAPED_UNICODE
+            ) . '</script>';
         foreach ($this->getSchema(null, []) as $item) {
             $meta[] = '<script type="application/ld+json">' . json_encode($item, JSON_UNESCAPED_UNICODE) . '</script>';
         }

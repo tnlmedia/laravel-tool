@@ -24,33 +24,52 @@ class Container
     {
         // Quick function for first level
         if (preg_match('/^(set|push|get|check)([a-z0-9]+)$/i', $name, $match)) {
-            $match[1] = strtolower($match[1]);
+            $action = strtolower($match[1]);
             $match[2] = preg_split('/(?=[A-Z])/', $match[2], -1, PREG_SPLIT_NO_EMPTY);
-            $match[2] = strtolower(implode('.', $match[2]));
+            $key = implode('.', $match[2]);
+            $value = null;
+            if (count($arguments) > 1) {
+                $key .= '.' . strval($arguments[0] ?? '');
+                $value = $arguments[1] ?? null;
+            } else {
+                if ($action == 'check') {
+                    $key .= '.' . strval($arguments[0] ?? '');
+                } else {
+                    $value = $arguments[1] ?? null;
+                }
+            }
+            $key = strtolower($key);
 
-            $key = trim($match[2] . '.' . strtolower(strval($arguments[0] ?? '')), '.');
-            if ($match[1] == 'set') {
-                if (!Arr::has($this->data, $match[2])) {
+            if ($action == 'set') {
+                if (!Arr::has($this->data, $key)) {
                     throw new Exception('Method ' . $name . ' not found');
                 }
-                return $this->setData($key, $arguments[1] ?? null);
-            } elseif ($match[1] == 'push') {
-                if (!Arr::has($this->data, $match[2])) {
+                return $this->setData($key, $value);
+            } elseif ($action == 'push') {
+                if (!Arr::has($this->data, $key)) {
                     throw new Exception('Method ' . $name . ' not found');
                 }
 
                 $current = $this->getData($key);
                 if (!isset($current)) {
-                    return $this->setData($key, $arguments[1] ?? null);
+                    return $this->setData($key, $value);
                 }
                 if (is_array($current)) {
-                    $current[] = $arguments[1] ?? null;
+                    $current[] = $value;
                     return $this->setData($key, $current);
                 }
-                return $this->setData($key, $current . ($arguments[1] ?? ''));
-            } elseif ($match[1] == 'get') {
-                return $this->getData($key, $arguments[1] ?? null);
-            } elseif ($match[1] == 'check') {
+                if (is_int($current) && is_int($value)) {
+                    $current += $value;
+                    return $this->setData($key, $current);
+                }
+                if (is_float($current) && is_float($value)) {
+                    $current += $value;
+                    return $this->setData($key, $current);
+                }
+                return $this->setData($key, $current . $value);
+            } elseif ($action == 'get') {
+                return $this->getData($key, $value);
+            } elseif ($action == 'check') {
                 return $this->checkData($key);
             }
         }
