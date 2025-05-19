@@ -15,6 +15,7 @@
             $item['layer'][$key] = match ($value) {
                 '{materialAuthors}' => $material['authors'] ?? [],
                 '{materialTerms}' => $material['terms'] ?? [],
+                '{materialPaid}' => intval($material['paid'] ?? 0),
                 default => $value,
             };
         }
@@ -31,7 +32,6 @@
       @php
         echo implode(PHP_EOL, $list);
       @endphp
-
         return Array.prototype.push.apply(this, arguments);
     };
   </script>

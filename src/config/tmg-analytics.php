@@ -27,6 +27,8 @@ return [
                 'author' => 'Counter-Author',
                 // Term list
                 'term' => 'Counter-Term',
+                // Paid content
+                'paid' => 'Paid-Content',
             ],
         ],
     ],
@@ -42,6 +44,7 @@ return [
             'layer' => [
                 'analyticsAuthors' => '{materialAuthors}',
                 'analyticsTerms' => '{materialTerms}',
+                'paidContent' => '{materialPaid}',
             ],
         ],
     ],

@@ -21,7 +21,7 @@
                       if (!($author['name'] ?? false)) {
                           continue;
                       }
-                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $author['name'] . "'});";
+                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $author['name'] . "', slug: '" . $author['key'] . "'});";
                   }
                   break;
 
@@ -30,7 +30,19 @@
                       if (!($term['name'] ?? false)) {
                           continue;
                       }
-                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $term['name'] . "'});";
+                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $term['name'] . "', slug: '" . $term['key'] . "'});";
+                  }
+                  break;
+
+              case 'paid':
+                  if ($material['paid'] ?? false) {
+                      $name = match ($material['paid']) {
+                          0 => 'Free',
+                          1 => 'Paid',
+                          2 => 'User',
+                          default => 'Unknown',
+                      };
+                      echo PHP_EOL . $slug . "_gtag('event', '" . $event . "', {action: 'trigger', label: '" . $name . "', slug: '" . $material['paid'] . "'});";
                   }
                   break;
           }
