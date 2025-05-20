@@ -467,9 +467,12 @@ class WebContainer extends Container
                     $meta[] = '<meta property="article:tag" content="' . $item['name'] . '">';
                 }
             }
+            $meta[] = '<meta property="article:modified_time" content="' . date('c', $this->getSharedModified()) . '">';
+            $meta[] = '<meta property="article:published_time" content="' . date(
+                    'c',
+                    $this->getSharedPublished()
+                ) . '">';
         }
-        $meta[] = '<meta property="article:modified_time" content="' . date('c', $this->getSharedModified()) . '">';
-        $meta[] = '<meta property="article:published_time" content="' . date('c', $this->getSharedPublished()) . '">';
         if ($value = config('tmg-website.site.facebook.application')) {
             $prefix['fb'] = 'http://ogp.me/ns/fb#';
             $meta[] = '<meta property="fb:app_id" content="' . $value . '">';

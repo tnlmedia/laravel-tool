@@ -346,15 +346,15 @@ class ContentSplitter
         foreach ($rule_count as $limit_length => $limit_count) {
             // Sentence split to keyword
             $split = [];
-            foreach ($sentence as $item) {
-                $length = count($item);
+            foreach ($sentence as $sentence_list) {
+                $length = count($sentence_list);
                 if ($length < $limit_length) {
                     continue;
                 }
 
                 // Split
                 for ($i = 0; $i <= $length - $limit_length; $i++) {
-                    $keyword = implode(' ', array_slice($sentence, $i, $length));
+                    $keyword = implode(' ', array_slice($sentence_list, $i, $length));
                     $keyword = $case_map[strtolower($keyword)] ?? $keyword;
                     $split[$keyword] = $split[$keyword] ?? 0;
                     $split[$keyword]++;

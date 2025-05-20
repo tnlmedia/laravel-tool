@@ -35,15 +35,18 @@ class Container
                 if ($action == 'check') {
                     $key .= '.' . strval($arguments[0] ?? '');
                 } else {
-                    $value = $arguments[1] ?? null;
+                    $value = $arguments[0] ?? null;
+                    if (is_string($value)) {
+                        if (Arr::has($this->data, strtolower($key . '.' . $value))) {
+                            $key .= '.' . strtolower($value);
+                            $value = null;
+                        }
+                    }
                 }
             }
-            $key = strtolower($key);
+            $key = strtolower(trim($key, '.'));
 
             if ($action == 'set') {
-                if (!Arr::has($this->data, $key)) {
-                    throw new Exception('Method ' . $name . ' not found');
-                }
                 return $this->setData($key, $value);
             } elseif ($action == 'push') {
                 if (!Arr::has($this->data, $key)) {
