@@ -10,5 +10,5 @@
       },
     });
   </script>
-  <script async src="https://sb.scorecardresearch.com/cs/17728543/beacon.js"></script>
+  <script async src="https://sb.scorecardresearch.com/cs/{{ $config['c2'] }}/beacon.js"></script>
 @endif
