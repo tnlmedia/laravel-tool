@@ -6,29 +6,26 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Response;
 
-/**
- * @method SitemapIndexContainer pushRow(array $value)
- * @method mixed getRow(string $key, $default = null)
- */
-class SitemapIndexContainer extends Container
+class SitemapIndexContainer extends XmlContainer
 {
     /**
-     * {@inheritdoc }
+     * Set data structure
      */
-    protected array $data = [
-        'row' => [],
-    ];
+    public function __construct()
+    {
+        $this->setData('row', []);
+    }
 
     /**
-     * Add a index item
+     * Add an item
      *
      * @param string $loc
      * @param Carbon|null $modified
      * @return $this
      */
-    public function pushItem(string $loc, Carbon $modified = null): SitemapIndexContainer
+    public function pushRow(string $loc, Carbon $modified = null): SitemapIndexContainer
     {
-        $this->pushRow([
+        $this->pushData('row', [
             'loc' => $loc,
             'lastmod' => $modified ? $modified->format('c') : Carbon::now()->format('c'),
         ]);
@@ -44,35 +41,30 @@ class SitemapIndexContainer extends Container
     public function response(): Response
     {
         $list = [];
+        $namespace = [];
         $namespace['xmlns'] = 'http://www.sitemaps.org/schemas/sitemap/0.9';
         foreach ($this->getData('row', []) as $row) {
-            $row += [
-                'loc' => '',
-                'lastmod' => Carbon::now()->format('c'),
-            ];
-            if (!$row['loc']) {
+            if (empty($row['loc'] ?? '')) {
                 continue;
             }
 
             $item = '<sitemap>';
-            $item .= '<loc>' . htmlspecialchars($row['loc']) . '</loc>';
-            $item .= '<lastmod>' . htmlspecialchars($row['lastmod']) . '</lastmod>';
+            foreach ($row as $key => $value) {
+                $item .= '<' . $key . '>' . htmlspecialchars($value) . '</' . $key . '>';
+            }
             $item .= '</sitemap>';
             $list[] = $item;
         }
 
-        $result = '<?xml version="1.0" encoding="UTF-8"?>';
-        $result .= '<sitemapindex';
+        $content = '<sitemapindex';
         foreach ($namespace as $name => $space) {
-            $result .= ' ' . $name . '="' . htmlspecialchars($space) . '"';
+            $content .= ' ' . $name . '="' . $space . '"';
         }
-        $result .= '>' . PHP_EOL;
-        $result .= implode(PHP_EOL, $list);
-        $result .= PHP_EOL . '</sitemapindex>';
+        $content .= '>';
+        $content .= PHP_EOL . implode(PHP_EOL, $list);
+        $content .= PHP_EOL . '</sitemapindex>';
+        $this->setData('content', $content);
 
-        return response()->make($result, Response::HTTP_OK, [
-            'Content-Type' => 'text/xml; charset=utf-8',
-            'Cache-Control' => 'no-cache, no-store, must-revalidate',
-        ]);
+        return parent::response();
     }
 }

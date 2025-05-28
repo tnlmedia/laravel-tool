@@ -49,27 +49,7 @@ class Container
             if ($action == 'set') {
                 return $this->setData($key, $value);
             } elseif ($action == 'push') {
-                if (!Arr::has($this->data, $key)) {
-                    throw new Exception('Method ' . $name . ' not found');
-                }
-
-                $current = $this->getData($key);
-                if (!isset($current)) {
-                    return $this->setData($key, $value);
-                }
-                if (is_array($current)) {
-                    $current[] = $value;
-                    return $this->setData($key, $current);
-                }
-                if (is_int($current) && is_int($value)) {
-                    $current += $value;
-                    return $this->setData($key, $current);
-                }
-                if (is_float($current) && is_float($value)) {
-                    $current += $value;
-                    return $this->setData($key, $current);
-                }
-                return $this->setData($key, $current . $value);
+                return $this->pushData($key, $value);
             } elseif ($action == 'get') {
                 return $this->getData($key, $value);
             } elseif ($action == 'check') {
@@ -103,6 +83,38 @@ class Container
     public function getData(string $key, $default = null): mixed
     {
         return Arr::get($this->data, $key, $default);
+    }
+
+    /**
+     * Push data value
+     *   array: Append value to array
+     *   int: Plus value to current value
+     *   float: Plus value to current value
+     *   string: Combine value to end of string
+     *
+     * @param string $key
+     * @param $value
+     * @return $this
+     */
+    public function pushData(string $key, $value): Container
+    {
+        $current = $this->getData($key);
+        if (!isset($current)) {
+            return $this->setData($key, $value);
+        }
+        if (is_array($current)) {
+            $current[] = $value;
+            return $this->setData($key, $current);
+        }
+        if (is_int($current) && is_int($value)) {
+            $current += $value;
+            return $this->setData($key, $current);
+        }
+        if (is_float($current) && is_float($value)) {
+            $current += $value;
+            return $this->setData($key, $current);
+        }
+        return $this->setData($key, $current . $value);
     }
 
     /**
