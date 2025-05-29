@@ -9,6 +9,7 @@ use TNLMedia\LaravelTool\Containers\Items\SitemapImage;
 use TNLMedia\LaravelTool\Containers\Items\SitemapNews;
 use TNLMedia\LaravelTool\Containers\Items\SitemapVideo;
 use TNLMedia\LaravelTool\Enums\SitemapFrequency;
+use TNLMedia\LaravelTool\Enums\SitemapPriority;
 
 class SitemapContainer extends XmlContainer
 {
@@ -25,8 +26,8 @@ class SitemapContainer extends XmlContainer
      *
      * @param string $loc
      * @param Carbon|null $modified
-     * @param SitemapFrequency|null $frequency
-     * @param float $priority
+     * @param SitemapFrequency $frequency
+     * @param SitemapPriority $priority
      * @param SitemapNews|null $news
      * @param array $images
      * @param array $videos
@@ -36,19 +37,19 @@ class SitemapContainer extends XmlContainer
         string $loc,
         Carbon $modified = null,
         SitemapFrequency $frequency = SitemapFrequency::Daily,
-        float $priority = 0.5,
+        SitemapPriority $priority = SitemapPriority::Article,
         SitemapNews $news = null,
-        array $images = [],
-        array $videos = []
+        array $image = [],
+        array $video = []
     ): SitemapContainer {
         $this->pushData('row', [
             'loc' => $loc,
             'lastmod' => $modified ? $modified->format('c') : Carbon::now()->format('c'),
             'changefreq' => $frequency,
-            'priority' => ($priority > 0 && $priority <= 1) ? $priority : 0.5,
+            'priority' => $priority,
             'news' => $news,
-            'images' => $images,
-            'videos' => $videos,
+            'image' => $image,
+            'video' => $video,
         ]);
         return $this;
     }
@@ -73,31 +74,36 @@ class SitemapContainer extends XmlContainer
             foreach ($row as $key => $value) {
                 switch ($key) {
                     case 'news':
-                        $namespace['xmlns:news'] = 'http://www.google.com/schemas/sitemap-news/0.9';
                         if ($value instanceof SitemapNews) {
+                            $namespace['xmlns:news'] = 'http://www.google.com/schemas/sitemap-news/0.9';
                             $item .= PHP_EOL . $value;
                         }
                         break;
 
-                    case 'images':
-                        $namespace['xmlns:image'] = 'http://www.google.com/schemas/sitemap-image/1.1';
+                    case 'image':
+                        if (!empty($value)) {
+                            $namespace['xmlns:image'] = 'http://www.google.com/schemas/sitemap-image/1.1';
+                        }
                         foreach ($value as $value_item) {
-                            if ($value instanceof SitemapImage) {
+                            if ($value_item instanceof SitemapImage) {
                                 $item .= PHP_EOL . $value_item;
                             }
                         }
                         break;
 
                     case 'video':
-                        $namespace['xmlns:video'] = 'http://www.google.com/schemas/sitemap-video/1.1';
+                        if (!empty($value)) {
+                            $namespace['xmlns:video'] = 'http://www.google.com/schemas/sitemap-video/1.1';
+                        }
                         foreach ($value as $value_item) {
-                            if ($value instanceof SitemapVideo) {
+                            if ($value_item instanceof SitemapVideo) {
                                 $item .= PHP_EOL . $value_item;
                             }
                         }
                         break;
 
                     case 'changefreq':
+                    case 'priority':
                         $item .= PHP_EOL . '<' . $key . '>' . $value->value . '</' . $key . '>';
                         break;
 

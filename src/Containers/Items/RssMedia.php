@@ -13,7 +13,7 @@ class RssMedia
 {
     /**
      * @param string $url
-     * @param string $type
+     * @param string $mimeType
      * @param RssMediaMedium $medium
      * @param int $width
      * @param int $height
@@ -25,7 +25,7 @@ class RssMedia
      */
     public function __construct(
         protected string $url,
-        protected string $type,
+        protected string $mimeType,
         protected RssMediaMedium $medium = RssMediaMedium::Image,
         protected int $width = 0,
         protected int $height = 0,
@@ -44,7 +44,7 @@ class RssMedia
     {
         $xml = '<media:content';
         $xml .= ' url="' . htmlspecialchars($this->url) . '"';
-        $xml .= ' type="' . htmlspecialchars($this->type) . '"';
+        $xml .= ' type="' . htmlspecialchars($this->mimeType) . '"';
         $xml .= ' medium="' . $this->medium->value . '"';
         if ($this->width) {
             $xml .= ' width="' . $this->width . '"';

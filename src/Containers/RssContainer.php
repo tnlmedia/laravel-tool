@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 use TNLMedia\LaravelTool\Containers\Items\RssAuthor;
 use TNLMedia\LaravelTool\Containers\Items\RssCategory;
 use TNLMedia\LaravelTool\Containers\Items\RssMedia;
-use TNLMedia\LaravelTool\Containers\Items\SitemapVideo;
 
 class RssContainer extends XmlContainer
 {
@@ -17,10 +16,10 @@ class RssContainer extends XmlContainer
      */
     public function __construct()
     {
-        $this->setData('title', '');
-        $this->setData('link', '');
-        $this->setData('description', '');
-        $this->setData('language', 'zh-tw');
+        $this->setData('title', config('app.name'));
+        $this->setData('link', url(request()->path()));
+        $this->setData('description', config('tmg-website.site.slogan', ''));
+        $this->setData('language', config('tmg-website.site.language', 'zh-tw'));
         $this->setData('copyright', 'TNLMediagene');
         $this->setData('buildDate', Carbon::now()->format('r'));
         $this->setData('row', []);
@@ -72,6 +71,9 @@ class RssContainer extends XmlContainer
         foreach ($this->getData('row', []) as $row) {
             $item = '<item>';
             foreach ($row as $key => $value) {
+                if (!$value) {
+                    continue;
+                }
                 switch ($key) {
                     case 'guid':
                         $item .= PHP_EOL . '<guid isPermaLink="true">' . htmlspecialchars(strval($value)) . '</guid>';
@@ -79,13 +81,13 @@ class RssContainer extends XmlContainer
 
                     case 'content':
                         $namespace['xmlns:content'] = 'http://purl.org/rss/1.0/modules/content/';
-                        $item .= PHP_EOL . '<content:encoded><![CDATA[' . htmlspecialchars(strval($value)) . ']]></content:encoded>';
+                        $item .= PHP_EOL . '<content:encoded><![CDATA[' . $value . ']]></content:encoded>';
                         break;
 
                     case 'authors':
                         $namespace['xmlns:dc'] = 'http://purl.org/dc/elements/1.1/';
                         foreach ($value as $value_item) {
-                            if ($value instanceof RssAuthor) {
+                            if ($value_item instanceof RssAuthor) {
                                 $item .= PHP_EOL . $value_item;
                             }
                         }
@@ -93,7 +95,7 @@ class RssContainer extends XmlContainer
 
                     case 'categories':
                         foreach ($value as $value_item) {
-                            if ($value instanceof RssCategory) {
+                            if ($value_item instanceof RssCategory) {
                                 $item .= PHP_EOL . $value_item;
                             }
                         }
@@ -102,14 +104,14 @@ class RssContainer extends XmlContainer
                     case 'medias':
                         $namespace['xmlns:media'] = 'http://search.yahoo.com/mrss/';
                         foreach ($value as $value_item) {
-                            if ($value instanceof RssMedia) {
+                            if ($value_item instanceof RssMedia) {
                                 $item .= PHP_EOL . $value_item;
                             }
                         }
                         break;
 
                     case 'description':
-                        $item .= PHP_EOL . '<' . $key . '><![CDATA[' . htmlspecialchars(strval($value)) . ']]></' . $key . '>';
+                        $item .= PHP_EOL . '<' . $key . '><![CDATA[' . $value . ']]></' . $key . '>';
                         break;
 
                     default:
