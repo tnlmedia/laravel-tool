@@ -99,15 +99,22 @@ class GatewayClient
     /**
      * Oauth request
      *
-     * @param array $parameters
+     * @param string $code
+     * @param string $redirect_uri
      * @return array
      * @throws Throwable
      */
-    public function oauth(array $parameters = []): array
+    public function oauth(string $code, string $redirect_uri): array
     {
         // Token
         $response = $this->request($this->requestUrl('token'), 'POST', [
-            'json' => $parameters,
+            'json' => [
+                'grant_type' => 'authorization_code',
+                'client_id' => strval(config('inkmagine.gateway.client')),
+                'client_secret' => strval(config('inkmagine.gateway.secret')),
+                'redirect_uri' => $redirect_uri,
+                'code' => $code,
+            ],
         ]);
         $response = json_decode($response, true);
 

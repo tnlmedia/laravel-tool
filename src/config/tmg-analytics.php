@@ -41,6 +41,7 @@ return [
             // Basic data layer when loaded
             // {materialAuthors}: Author list from material
             // {materialTerms}: Term list from material
+            // {materialPaid}: Paid content from material
             'layer' => [
                 'analyticsAuthors' => '{materialAuthors}',
                 'analyticsTerms' => '{materialTerms}',
@@ -51,7 +52,7 @@ return [
     // Comscore
     'comscore' => [
         // Tag type
-        'c1' => '',
+        'c1' => '2',
         // Client ID
         'c2' => '',
         // enableFirstPartyCookie
