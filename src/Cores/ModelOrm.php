@@ -4,9 +4,7 @@ namespace TNLMedia\LaravelTool\Cores;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
-use Illuminate\Database\Eloquent\Concerns\HasUniqueIds;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -61,11 +59,6 @@ class ModelOrm extends Model
     public $timestamps = true;
 
     /**
-     * @see HasUniqueIds::$usesUniqueIds
-     */
-    public $usesUniqueIds = false;
-
-    /**
      * @see GuardsAttributes::$fillable
      */
     protected $fillable = [];
@@ -91,24 +84,6 @@ class ModelOrm extends Model
     public function getMorphClass()
     {
         return $this->getTable();
-    }
-
-    /**
-     * @return string
-     * @see HasUniqueIds::newUniqueId()
-     */
-    public function newUniqueId()
-    {
-        return (string)Str::orderedUuid();
-    }
-
-    /**
-     * @return array
-     * @see HasUniqueIds::uniqueIds()
-     */
-    public function uniqueIds()
-    {
-        return [$this->getKeyName()];
     }
 
     /**
