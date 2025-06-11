@@ -10,7 +10,7 @@ class Exception extends ExceptionBase
     /**
      * Structure: 000(HTTP Status)-00(Serial)
      */
-    protected int $code = 50000;
+    protected $code = 50000;
 
     /**
      * Hint field
