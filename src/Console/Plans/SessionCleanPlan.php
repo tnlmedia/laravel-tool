@@ -8,19 +8,17 @@ use Illuminate\Support\Facades\Schema;
 class SessionCleanPlan extends Plan
 {
     /**
-     * @var string
+     * {@inheritdoc }
      */
     public string $frequencies = 'hourly';
 
     /**
-     * Active or disable schedule
-     *
-     * @var bool
+     * {@inheritdoc }
      */
     public bool $status = false;
 
     /**
-     * Run the plan
+     * @return void
      */
     public function handle(): void
     {
