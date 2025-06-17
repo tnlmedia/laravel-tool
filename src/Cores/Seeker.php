@@ -245,7 +245,7 @@ class Seeker
      * @param string|null $column
      * @return mixed
      */
-    public function max(string $column = null): mixed
+    public function max(?string $column = null): mixed
     {
         if (empty($column)) {
             $column = $this->entity->getKeyName();

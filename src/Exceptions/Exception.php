@@ -60,7 +60,7 @@ class Exception extends ExceptionBase
      * @param Throwable|null $previous
      * @return Exception
      */
-    public static function invalidField(string $hint = '', Throwable $previous = null): Exception
+    public static function invalidField(string $hint = '', ?Throwable $previous = null): Exception
     {
         $return = new static('', 0, $previous);
         $return->setHint($hint);

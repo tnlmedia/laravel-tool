@@ -77,10 +77,10 @@ class Container
      * Get data value
      *
      * @param string $key
-     * @param $default
+     * @param mixed|null $default
      * @return mixed
      */
-    public function getData(string $key, $default = null): mixed
+    public function getData(string $key, mixed $default = null): mixed
     {
         return Arr::get($this->data, $key, $default);
     }

@@ -35,10 +35,10 @@ class SitemapContainer extends XmlContainer
      */
     public function pushRow(
         string $loc,
-        Carbon $modified = null,
+        ?Carbon $modified = null,
         SitemapFrequency $frequency = SitemapFrequency::Daily,
         SitemapPriority $priority = SitemapPriority::Article,
-        SitemapNews $news = null,
+        ?SitemapNews $news = null,
         array $image = [],
         array $video = []
     ): SitemapContainer {

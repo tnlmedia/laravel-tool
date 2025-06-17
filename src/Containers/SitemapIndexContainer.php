@@ -23,7 +23,7 @@ class SitemapIndexContainer extends XmlContainer
      * @param Carbon|null $modified
      * @return $this
      */
-    public function pushRow(string $loc, Carbon $modified = null): SitemapIndexContainer
+    public function pushRow(string $loc, ?Carbon $modified = null): SitemapIndexContainer
     {
         $this->pushData('row', [
             'loc' => $loc,

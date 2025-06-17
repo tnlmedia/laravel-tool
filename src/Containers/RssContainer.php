@@ -35,7 +35,7 @@ class RssContainer extends XmlContainer
         string $link,
         string $description = '',
         string $content = '',
-        Carbon $pubDate = null,
+        ?Carbon $pubDate = null,
         string $commentLink = '',
         array $authors = [],
         array $categories = [],

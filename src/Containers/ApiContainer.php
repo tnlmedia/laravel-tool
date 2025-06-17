@@ -6,9 +6,9 @@ use Illuminate\Http\JsonResponse;
 use Throwable;
 
 /**
- * @method ApiContainer setCode(string $key = null, int $value = 0)
- * @method ApiContainer setMessage(string $key = null, string $value = '')
- * @method ApiContainer setHint(string $key = null, string $value = '')
+ * @method ApiContainer setCode(?string $key = null, int $value = 0)
+ * @method ApiContainer setMessage(?string $key = null, string $value = '')
+ * @method ApiContainer setHint(?string $key = null, string $value = '')
  */
 class ApiContainer extends Container
 {
