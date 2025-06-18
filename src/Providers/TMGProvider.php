@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\ManagesFrequencies;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
@@ -45,6 +46,9 @@ class TMGProvider extends ServiceProvider
             $folder[app_path('Console/Plans')] = 'App\Console\Plans';
             $folder[__DIR__ . '/../Console/Plans'] = 'TNLMedia\LaravelTool\Console\Plans';
             foreach ($folder as $path => $namespace) {
+                if (!File::isDirectory($path)) {
+                    continue;
+                }
                 foreach ((new Finder)->in($path)->files() as $plan) {
                     /** @var SplFileInfo $plan */
                     $plan = $namespace . '\\' . str_replace(
