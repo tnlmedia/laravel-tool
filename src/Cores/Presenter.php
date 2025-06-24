@@ -2,7 +2,7 @@
 
 namespace TNLMedia\LaravelTool\Cores;
 
-use Google\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Presenter
 {

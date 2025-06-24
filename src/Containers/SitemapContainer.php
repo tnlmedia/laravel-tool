@@ -29,8 +29,8 @@ class SitemapContainer extends XmlContainer
      * @param SitemapFrequency $frequency
      * @param SitemapPriority $priority
      * @param SitemapNews|null $news
-     * @param array $images
-     * @param array $videos
+     * @param array $image
+     * @param array $video
      * @return $this
      */
     public function pushRow(
