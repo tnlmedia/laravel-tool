@@ -63,11 +63,11 @@ class Container
     /**
      * Put data value
      *
-     * @param string $key
+     * @param string|null $key
      * @param $value
      * @return $this
      */
-    public function setData(string $key, $value): Container
+    public function setData(?string $key, $value): Container
     {
         Arr::set($this->data, $key, $value);
         return $this;
@@ -76,11 +76,11 @@ class Container
     /**
      * Get data value
      *
-     * @param string $key
+     * @param string|null $key
      * @param mixed|null $default
      * @return mixed
      */
-    public function getData(string $key, mixed $default = null): mixed
+    public function getData(?string $key = null, mixed $default = null): mixed
     {
         return Arr::get($this->data, $key, $default);
     }
@@ -92,11 +92,11 @@ class Container
      *   float: Plus value to current value
      *   string: Combine value to end of string
      *
-     * @param string $key
+     * @param string|null $key
      * @param $value
      * @return $this
      */
-    public function pushData(string $key, $value): Container
+    public function pushData(?string $key, $value): Container
     {
         $current = $this->getData($key);
         if (!isset($current)) {
@@ -120,10 +120,10 @@ class Container
     /**
      * Check data value true or false
      *
-     * @param string $key
+     * @param string|null $key
      * @return bool
      */
-    public function checkData(string $key): bool
+    public function checkData(?string $key): bool
     {
         return !!Arr::get($this->data, $key);
     }
