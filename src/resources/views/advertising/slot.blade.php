@@ -1,6 +1,7 @@
 @php
   $class = [];
   $class[] = 'tmgad';
+  $class[] = 'tmgad-name-' . ($config['name'] ?? '');
   $class[] = 'tmgad-type-' . ($config['type'] ?? 'general');
   $class[] = 'tmgad-new';
   $class = array_unique(array_merge($class, $config['class'] ?? []));
