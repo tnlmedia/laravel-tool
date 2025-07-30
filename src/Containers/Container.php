@@ -74,18 +74,6 @@ class Container
     }
 
     /**
-     * Get data value
-     *
-     * @param string|null $key
-     * @param mixed|null $default
-     * @return mixed
-     */
-    public function getData(?string $key = null, mixed $default = null): mixed
-    {
-        return Arr::get($this->data, $key, $default);
-    }
-
-    /**
      * Push data value
      *   array: Append value to array
      *   int: Plus value to current value
@@ -115,6 +103,18 @@ class Container
             return $this->setData($key, $current);
         }
         return $this->setData($key, $current . $value);
+    }
+
+    /**
+     * Get data value
+     *
+     * @param string|null $key
+     * @param mixed|null $default
+     * @return mixed
+     */
+    public function getData(?string $key = null, mixed $default = null): mixed
+    {
+        return Arr::get($this->data, $key, $default);
     }
 
     /**
