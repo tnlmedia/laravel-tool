@@ -194,7 +194,7 @@ class TMGBladeHelper
             return '<!-- Invalid slot size -->';
         }
         if (empty($config['mapping'])) {
-            $config['mapping'] = [[0, 0], $config['size']];
+            $config['mapping'][] = [[0, 0], $config['size']];
         }
         $config['targeting'] = array_filter($config['targeting']);
 
