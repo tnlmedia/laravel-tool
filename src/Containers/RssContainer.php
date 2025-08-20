@@ -20,7 +20,7 @@ class RssContainer extends XmlContainer
         $this->setData('link', url(request()->path()));
         $this->setData('description', config('tmg-website.site.slogan', ''));
         $this->setData('language', config('tmg-website.site.language', 'zh-tw'));
-        $this->setData('copyright', 'TNLMediagene');
+        $this->setData('copyright', 'TNL Mediagene');
         $this->setData('buildDate', Carbon::now()->format('r'));
         $this->setData('row', []);
     }
