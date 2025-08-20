@@ -135,8 +135,8 @@ class RssContainer extends XmlContainer
         $content .= PHP_EOL . '<language>' . htmlspecialchars($this->getData('language')) . '</language>';
         $content .= PHP_EOL . '<copyright>' . htmlspecialchars($this->getData('copyright')) . '</copyright>';
         $content .= PHP_EOL . '<lastBuildDate>' . $this->getData('buildDate') . '</lastBuildDate>';
-        $content .= PHP_EOL . '</channel>';
         $content .= PHP_EOL . implode(PHP_EOL, $list);
+        $content .= PHP_EOL . '</channel>';
         $content .= PHP_EOL . '</rss>';
         $this->setData('content', $content);
 
