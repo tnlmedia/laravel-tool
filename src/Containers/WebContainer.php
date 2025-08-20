@@ -3,6 +3,7 @@
 namespace TNLMedia\LaravelTool\Containers;
 
 use Exception;
+use Illuminate\Support\Arr;
 use TNLMedia\LaravelTool\Facades\TMGBlade;
 
 /**
@@ -261,9 +262,9 @@ class WebContainer extends Container
                 'key' => '',
                 'name' => '',
             ],
-            // [['type' => 'category', 'key' => 'slug', 'name' => 'name']]
+            // [['type' => 'category', 'key' => 'slug', 'name' => 'name', 'url' => 'https://sample.com/category']]
             'terms' => [],
-            // [['key' => 'slug', 'name' => 'name']]
+            // [['key' => 'slug', 'name' => 'name', 'url' => 'https://sample.com/author']]
             'authors' => [],
         ],
         'schema' => [],
@@ -329,8 +330,15 @@ class WebContainer extends Container
         $this->process();
         // TMGBlade
         $material = $this->getData('material', []);
-        foreach ($material as $key => $item) {
-            TMGBlade::setMaterial($key, $item);
+        foreach ($material as $key => $target) {
+            if (is_array($target)) {
+                foreach ($target as $serial => $item) {
+                    if (is_array($item)) {
+                        Arr::forget($target[$serial], 'url');
+                    }
+                }
+            }
+            TMGBlade::setMaterial($key, $target);
         }
         return $this->data;
     }
@@ -500,10 +508,24 @@ class WebContainer extends Container
                 'mainEntityOfPage' => $this->getSharedUrl(),
                 'datePublished' => date('c', $this->getSharedPublished()),
                 'dateModified' => date('c', $this->getSharedModified()),
-                'author' => array_column($this->getMaterial('authors', []), 'name'),
-                'keywords' => array_column($this->getMaterial('terms', []), 'name'),
+                'author' => [],
+                'keywords' => [],
                 'description' => $this->getShared('description.full'),
             ];
+            foreach ($this->getMaterial('authors', []) as $material) {
+                $item['author'][] = array_filter([
+                    '@type' => 'Person',
+                    'name' => $material['name'] ?? '',
+                    'url' => $material['url'] ?? '',
+                ]);
+            }
+            foreach ($this->getMaterial('terms', []) as $material) {
+                $item['keywords'][] = array_filter([
+                    '@type' => 'DefinedTerm',
+                    'name' => $material['name'] ?? '',
+                    'url' => $material['url'] ?? '',
+                ]);
+            }
             if ($value = $this->getSharedImageUrl()) {
                 $item['image'] = [
                     '@type' => 'ImageObject',
