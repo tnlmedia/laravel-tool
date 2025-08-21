@@ -277,7 +277,11 @@ class WebContainer extends Container
     {
         $this->setSharedUrl(url(request()->path()));
         $this->setSharedDescriptionBasic(config('tmg-website.site.slogan', ''));
-        $this->setSharedImageUrl(config('tmg-website.site.image.url', ''));
+        $url = config('tmg-website.site.image.url', '');
+        if (!parse_url($url, PHP_URL_HOST)) {
+            $url = asset($url);
+        }
+        $this->setSharedImageUrl($url);
         $this->setSharedImageWidth(config('tmg-website.site.image.width', 0));
         $this->setSharedImageHeight(config('tmg-website.site.image.height', 0));
         $this->setSharedKeyword(implode(',', config('tmg-website.site.keyword', [])));
