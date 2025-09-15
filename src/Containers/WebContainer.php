@@ -244,7 +244,7 @@ class WebContainer extends Container
         ],
         // Material for analytics and advertising targeting
         'material' => [
-            'cabinet' => 0,
+            'cabinet' => [],
             'advertising' => 0,
             // Sponsor type
             // 0: none, 1: sponsor
@@ -375,7 +375,6 @@ class WebContainer extends Container
         $value[] = 'ping.chartbeat.net';
         $value[] = 'pagead2.googlesyndication.com';
         $value[] = 'securepubads.g.doubleclick.net';
-        $value[] = 'a.flux.jp';
         $value = array_unique($value);
         foreach ($value as $item) {
             $meta[] = '<link rel="dns-prefetch" href="//' . trim($item, '/') . '">';

@@ -14,7 +14,7 @@ class TMGBladeHelper
      * @var array
      */
     protected array $material = [
-        'cabinet' => 0,
+        'cabinet' => [],
         'advertising' => 0,
         // Sponsor type
         // 0: none, 1: sponsor
@@ -98,12 +98,7 @@ class TMGBladeHelper
         $payload = [
             'gam_status' => boolval(config('tmg-advertising.gam.status', false)),
             'gam_event' => config('tmg-advertising.gam.event', []),
-            'flux_status' => boolval(config('tmg-advertising.flux.status', false)),
-            'flux_core' => config('tmg-advertising.flux.core', ''),
-            'flux_timeout' => intval(config('tmg-advertising.flux.timeout', 3000)),
         ];
-        $payload['flux_status'] = $payload['flux_status'] && !empty($payload['flux_core']);
-        $payload['gam_status'] = $payload['gam_status'] || $payload['flux_status'];
         $header .= view('TMG::advertising.header', $payload)->toHtml();
 
         return $header;

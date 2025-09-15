@@ -2,7 +2,7 @@
 
 return [
     'gam' => [
-        // Join GAM code or not, force via flux
+        // Join GAM code or not
         'status' => false,
         // GAM event listener, format [event name, callback function]
         // @see https://developers.google.com/publisher-tag/samples/ad-event-listeners
@@ -11,22 +11,12 @@ return [
         ],
     ],
 
-    'flux' => [
-        // Join flux code or not
-        'status' => false,
-        // Flux core js
-        'core' => '',
-        // Failed timeout (int): Optional, default 3000ms
-        'timeout' => 3000,
-    ],
-
     'slot' => [
         // Ad slot sample config
         'sample' => [
             // Slot type (string): Optional
             // general: Default, general GAM slot
             // oop: GAM out-of-page slot
-            // flux: Flux prebid slot
             'type' => 'general',
             // Slot name (string): Required, format: /{GAM network ID}/{slot name}
             'slot' => '/000/sample-slot',
