@@ -87,18 +87,18 @@ class ApiContainer extends Container
         if (method_exists($throwable, 'render')) {
             try {
                 $content = json_decode($throwable->render(request())->getContent(), true);
-                $message = $message ?? $content['message'] ?? null;
-                $hint = $content['hint'] ?? $hint;
+                $message = $message ?: ($content['message'] ?? '');
+                $hint = $hint ?: ($content['hint'] ?? '');
             } catch (Throwable $e) {
             }
         }
 
         // Message
-        $message = $message ?? $throwable->getMessage();
+        $message = $message ?: $throwable->getMessage();
 
         // Hint
         if (method_exists($throwable, 'getHint')) {
-            $hint = $throwable->getHint();
+            $hint = $hint ?: $throwable->getHint();
         }
 
         $this->setCode(intval($throwable->getCode()));
