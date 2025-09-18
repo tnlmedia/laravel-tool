@@ -81,6 +81,12 @@
                   .defineSizeMapping(mapping.build()).addService(service);
                 break;
             }
+            for (let targeting in attributes.targeting) {
+              if (!attributes.targeting[targeting].length) {
+                continue;
+              }
+              slot.setTargeting(targeting, attributes.targeting[targeting]);
+            }
             googletag.display(attributes.id);
             googletag.pubads().refresh([slot]);
           });
