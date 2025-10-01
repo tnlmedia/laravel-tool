@@ -47,27 +47,25 @@ return [
         'Organization' => [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
-            'legalName' => 'TNL Mediagene',
-            'slogan' => 'Asia’s Next Generation Digital and Technology Media Group. A comprehensive media and data platform providing news and commentary on current events, business, technology, lifestyle and sports.',
-            'url' => 'https://www.tnlmediagene.com/',
-            'logo' => 'https://resource.tnlmediagene.com/assets/logo/tnlmediagene.png',
-            'contactPoint' => [
-                '@type' => 'ContactPoint',
-                'telephone' => '+886-2-66385108',
-                'contactType' => 'customer service',
-                'areaServed' => 'TW',
-                'availableLanguage' => [
-                    'English',
-                    'Chinese',
-                    'Japanese',
+            'legalName' => '關鍵評論網股份有限公司',
+            'alternateName' => 'The News Lens Co., Ltd.',
+            'url' => 'https://www.tnlmediagene.com/about',
+            'address' => [
+                '@type' => 'PostalAddress',
+                'addressLocality' => '信義區',
+                'addressRegion' => '臺北市',
+                'postalCode' => '110',
+                'streetAddress' => '菸廠路88號4樓',
+                'addressCountry' => [
+                    '@type' => 'Country',
+                    'name' => 'TW',
                 ],
             ],
-            'sameAs' => [
-                'https://zh.wikipedia.org/zh-tw/TNL_Mediagene',
-                'https://www.linkedin.com/company/tnl-mediagene',
-                'https://x.com/tnlmediagene',
-                'https://www.facebook.com/tnlmediagene',
-                'https://www.instagram.com/tnl_mediagene/',
+            'foundingDate' => '2013-05-21',
+            'parentOrganization' => [
+                '@type' => 'Organization',
+                'name' => 'TNL Mediagene',
+                'url' => 'https://www.tnlmediagene.com/',
             ],
         ],
         'WebSite' => [
