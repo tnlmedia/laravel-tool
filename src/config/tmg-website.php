@@ -47,7 +47,7 @@ return [
         'Organization' => [
             '@context' => 'https://schema.org',
             '@type' => 'Organization',
-            'legalName' => '關鍵評論網股份有限公司',
+            'name' => '關鍵評論網股份有限公司',
             'alternateName' => 'The News Lens Co., Ltd.',
             'url' => 'https://www.tnlmediagene.com/about',
             'address' => [
