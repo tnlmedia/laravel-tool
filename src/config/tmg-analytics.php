@@ -21,6 +21,8 @@ return [
         'core' => [
             // Measurement ID: G-XXXXXXX
             'id' => '',
+            // Use tag gateway: /metrics-xxxxxxx/
+            'gateway' => '',
             // Global event when loaded: [type => event_name]
             'event' => [
                 // Author list
@@ -38,6 +40,8 @@ return [
         'core' => [
             // ID: GTM-XXXXXXX
             'id' => '',
+            // Use tag gateway: /metrics-xxxxxxx/
+            'gateway' => '',
             // Basic data layer when loaded
             // {materialAuthors}: Author list from material
             // {materialTerms}: Term list from material

@@ -5,7 +5,11 @@
   @if (!($item['id'] ?? false))
     @continue
   @endif
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ $item['id'] }}&l={{ $slug }}Ga4Layer"></script>
+  @if (!($config['gateway'] ?? false))
+    <script async src="{{ $config['gateway'] }}?id={{ $item['id'] }}&l={{ $slug }}Ga4Layer"></script>
+  @else
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $item['id'] }}&l={{ $slug }}Ga4Layer"></script>
+  @endif
   <script>
     @php
       $list[] = $slug . "Ga4Layer.push(arguments);";

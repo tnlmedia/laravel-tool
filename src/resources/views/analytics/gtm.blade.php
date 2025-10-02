@@ -23,7 +23,11 @@
       }
     @endphp
   </script>
-  <script async src="https://www.googletagmanager.com/gtm.js?id={{ $item['id'] }}&l={{ $slug }}GtmLayer"></script>
+  @if (!($config['gateway'] ?? false))
+    <script async src="{{ $config['gateway'] }}?id={{ $item['id'] }}&l={{ $slug }}GtmLayer"></script>
+  @else
+    <script async src="https://www.googletagmanager.com/gtm.js?id={{ $item['id'] }}&l={{ $slug }}GtmLayer"></script>
+  @endif
 @endforeach
 @if ($list)
   <script>
