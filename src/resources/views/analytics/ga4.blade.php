@@ -5,7 +5,7 @@
   @if (!($item['id'] ?? false))
     @continue
   @endif
-  @if (!($config['gateway'] ?? false))
+  @if ($config['gateway'] ?? false)
     <script async src="{{ $config['gateway'] }}?id={{ $item['id'] }}&l={{ $slug }}Ga4Layer"></script>
   @else
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ $item['id'] }}&l={{ $slug }}Ga4Layer"></script>
