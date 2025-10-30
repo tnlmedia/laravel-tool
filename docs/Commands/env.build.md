@@ -1,30 +1,26 @@
-# Commands
+# Build the `.env` file
 
-All support artisan commands below.
+Generates a `.env` file from various sources.
 
-| Command     | Description           |
-|-------------|-----------------------|
-| `env:build` | Build the `.env` file |
-
-## env:build
+## Command
 
 `env:build {--target=} {--batch=} {--line=*}`
 
-### --target==
+## --target==
 
 Target environment identifier (e.g. `production`, `sandbox`, `stage`).
 
 Will load `.env.{target}` and `CI_{target}_` if it exists.
 
-### --batch=
+## --batch=
 
 Raw dotenv-format content (can include multiple lines).
 
-### --line=*
+## --line=*
 
 Can be provided multiple times, format `KEY,VALUE`.
 
-### Priority
+## Priority
 
 If the same variable is defined in multiple sources, will use as follows (highest priority last):
 
