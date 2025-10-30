@@ -7,7 +7,7 @@ Plan allows scheduling tasks to be defined in a structured way by extending the 
 1. Create a new class under `app/Console/Plans` that extends `TNLMedia\LaravelTool\Console\Plans\Plan`.
 2. Write your task logic in the `handle()` method.
 
-## Arguments
+## Properties
 
 - `public string $frequencies`: Name of a scheduler method from `Illuminate\Console\Scheduling\ManagesFrequencies` (e.g. `hourly`, `daily`, `everyMinute`). Default: `everyMinute`.
 - `public array $frequencies_arguments`: array of arguments passed to the frequency method (if needed).
