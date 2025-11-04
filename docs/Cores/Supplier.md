@@ -1,37 +1,32 @@
 # Supplier
 
-Overview
+`Supplier` is a reusable class for get records by `Seeker`.
 
-`Supplier` provides a tiny convenience wrapper that instantiates a `Seeker` and exposes common lookup helpers such as `findId()` and `collectId()` for retrieving single or multiple records by primary key.
+## How to use
 
-Main methods
+1. Create a new class that extends `TNLMedia\LaravelTool\Cores\Supplier`.
+2. Change the `$seeker` property to your target seeker class.
+3. Add methods for common lookup if needed.
 
-- `findId($value): ?ModelOrm`
-  - Parameters: `$value` — primary key value (scalar) or array of keys.
-  - Returns: `ModelOrm|null` — first matching model or `null`.
-  - Example:
+## Get
 
 ```php
-$supplier = new \TNLMedia\LaravelTool\Cores\Supplier();
+$supplier = new TargetSupplier();
 $item = $supplier->findId(123);
-if ($item) {
-    echo $item->id;
-}
 ```
 
-- `collectId($value): ?\Illuminate\Support\Collection`
-  - Parameters: `$value` — primary key value(s).
-  - Returns: `Collection` of matched items.
-  - Example:
+## Methods
 
-```php
-$items = $supplier->collectId([1,2,3]);
-foreach ($items as $i) {
-    echo $i->id . "\n";
-}
-```
+- `findId($value): ?ModelOrm`: Find single record by primary key.
+- `collectId($value): ?Collection`: Collect multiple records by primary key.
+- `query(): Seeker`: Start a new seeker instance in supplier methods.
 
-Notes
+## Tips
 
-- `Supplier` is a lightweight façade — extend or inject a different `seeker` class when you need custom query behavior.
+### Naming methods
 
+Usually, few rule can help you to name your supplier methods:
+
+- findSomething($value): Find single record by field `something`.
+- collectSomething($value): Collect multiple records by field `something`.
+- countSomething($value): Count records by field `something`.

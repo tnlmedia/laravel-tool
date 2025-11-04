@@ -1,104 +1,62 @@
 # Seeker
 
-Overview
+`Seeker` allow building query on Eloquent models as semantically as possible.
 
-`Seeker` is a reusable query builder helper that wraps an Eloquent model and provides convenience methods for adding conditions, sorting, joins, eager loading, and fetching results. It is used by `Gatherer` and `Supplier` to perform model queries consistently.
+## How to use
 
-Contract
+1. Create a new class that extends `TNLMedia\LaravelTool\Cores\Seeker`.
+2. Change the `$model` property to your target model class.
+3. Add methods for common conditions if needed.
 
-- Input: Methods accept arrays, scalars and control parameters for pagination and relations.
-- Output: Returns `Seeker` for chainable calls; retrieval methods return `Collection`, `Model` instances, or scalars (`int`, `mixed`).
+## Query
 
-Properties
-
-- `protected string $model` — target model classname (defaults to `ModelOrm::class`).
-- `protected ModelOrm|Model|null $entity` — model instance.
-- `protected ?Builder $query` — Eloquent query builder.
-- `protected array $sorts` — applied sort columns.
-
-Constructor
-
-- Prepares the entity and a query with the entity table selected.
-
-Quick usage example
+Basic usage example:
 
 ```php
-use TNLMedia\LaravelTool\Cores\Seeker;
-
-$seeker = Seeker::query()
-    ->condition(['status' => 'active'])
+$result = TargetSeeker::query()
+    ->status(true)
     ->sortCreated()
+    ->preload(['relation1', 'relation2'])
     ->get(0, 20);
-
-foreach ($seeker as $item) {
-    echo $item->id . "\n";
-}
 ```
 
-Main methods (public / protected)
-
-- `static function query(): Seeker` — Shortcut constructor.
-
-- `protected function condition(array $conditions = []): Seeker`
-  - Accepts an associative array of column => value.
-  - Behavior:
-    - array values => whereIn
-    - null => whereNull
-    - scalar => where(column, value)
-  - Example:
+You can combine multiple conditions in several part.
 
 ```php
-$seeker->condition(['id' => [1,2,3], 'category' => 'news']);
-```
-
-- `protected function conditionNot(array $conditions = []): Seeker` — Negative forms of `condition` (whereNotIn, whereNotNull, whereNot).
-
-- `public function primaryKey($value): Seeker` — Apply condition on primary key.
-  - Example: `$seeker->primaryKey(5)` or `$seeker->primaryKey([1,2,3])`
-
-- `public function primaryKeyNot($value): Seeker` — Negative primary key.
-
-- `protected function sort(string $column, bool $reverse = true): Seeker` — Internal helper to add orderBy for a column.
-
-- `public function sortPrimary(bool $reverse = true): Seeker` — Sort by primary key.
-
-- `public function sortCreated(bool $reverse = true): Seeker` — Sort by `created_at`.
-
-- `public function sortUpdated(bool $reverse = true): Seeker` — Sort by `updated_at`.
-
-- `protected function join($table, $first, $operator = null, $second = null): Seeker` — Adds a `leftJoin` if not already joined.
-
-- `public function preload(array $relations = []): Seeker` — Eager loads relations via `with()`.
-
-- `public function count(string $column = '*'): int` — Counts results. If column is provided, uses DISTINCT on that column.
-
-- `public function max(?string $column = null): mixed` — Max value of a column, defaults to primary key.
-
-- `public function get(int $offset = 0, int $limit = 0, array $relations = []): Collection`
-  - Applies limit & offset when provided and returns the result collection.
-  - Example: `$seeker->get(0, 50, ['author', 'tags'])`
-
-- `public function first(): ModelOrm|Model|null` — Returns the first matching model or null.
-
-- `protected function complexColumn(string $column): string` — Ensures column is prefixed with the table name if not already.
-
-Notes and examples
-
-- `Seeker` is intended to be extended for model-specific advanced conditions. For example, an `ArticleSeeker` could expose a `byCategory()` helper that calls `condition()`.
-
-Example subclass
-
-```php
-class ArticleSeeker extends Seeker
-{
-    protected string $model = \App\Models\Article::class;
-
-    public function byAuthor($authorId): Seeker
-    {
-        return $this->condition(['author_id' => $authorId]);
-    }
+$query = TargetSeeker::query()
+    ->status(true);
+if ($keyword) {
+    $query->search($keyword);
 }
-
-$articles = (new ArticleSeeker())->byAuthor(5)->sortCreated()->get(0, 20);
+$result = $query->sortCreated()->get(0, 20);
 ```
+
+## Methods
+
+- `query(): Seeker`: Start a new query instance.
+- `primaryKey($value): Seeker`: Apply condition on primary key field.
+- `primaryKeyNot($value): Seeker`: Apply negative condition on primary key field.
+- `sortPrimaryKey(bool $reverse = true): Seeker`: Apply sort order on primary key field.
+- `sortCreated(bool $reverse = true): Seeker`: Apply sort order on created timestamp field.
+- `sortUpdated(bool $reverse = true): Seeker`: Apply sort order on updated timestamp field.
+- `preload(array $relations): Seeker`: Eager load related models.
+- `count(string $field = '*'): int`: Get count of matched records.
+- `max(?string $column = null): mixed`: Get maximum value of a column.
+- `get(int $offset = 0, int $limit = 0, array $relations = []): Collection`: Get matched records.
+- `first(): ModelOrm|Model|null`: Get first matched record.
+
+## Tips
+
+### Naming methods
+
+Usually, few rule can help you to name your seeker methods:
+
+- something($value): Apply condition on field `something`.
+    - You can use below method to apply multiple conditions at once.
+    - `condition(array $conditions): Seeker`: Apply multiple conditions at once.
+    - `conditionNot(array $conditions): Seeker`: Apply multiple negative conditions at once.
+- joinSomething(): Join related table.
+    - You can use `join($table, $first, $operator = null, $second = null): Seeker` to join arbitrary relation.
+- sortSomething(bool $reverse = true): Apply sort order.
+    - You can use `sort(string $field, bool $reverse = false): Seeker` to apply sort on arbitrary field.
 
