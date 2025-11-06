@@ -1,45 +1,53 @@
-# Containers/Container
+# Container
 
-Overview
+`Container` is a basic key/value storage utility used throughout the package.
 
-`Container` is a small key/value storage utility used throughout the package. It provides explicit methods for manipulating stored data (`setData`, `pushData`, `getData`, `checkData`) and also exposes a dynamic `__call` convenience for camel-cased helper calls.
+## How to use
 
-Public methods
+1. Create a new class that extends `TNLMedia\LaravelTool\Containers\Container`.
+2. Modify `$data` property for default structure if needed.
+3. Override `export()` method to customize exported data if needed.
+4. Write phpdoc for your custom container class to describe stored keys.
 
-- `setData(?string $key, $value): Container`
-  - Stores `$value` at `$key` (dot notation supported). Returns the container for chaining.
-  - Example: `$c->setData('shared.title', 'Hello');`
-
-- `pushData(?string $key, $value): Container`
-  - If the key does not exist, sets it to `$value`.
-  - If current value is array, appends `$value`.
-  - If current value and `$value` are integers/floats, adds numerically.
-  - Otherwise concatenates strings.
-  - Returns the container for chaining.
-  - Example: `$c->pushData('numbers', 3);`
-
-- `getData(?string $key = null, mixed $default = null): mixed`
-  - Retrieves value stored at `$key` or `$default` if missing. If `$key` is null, returns the entire backing array.
-  - Example: `$title = $c->getData('shared.title', 'default');`
-
-- `checkData(?string $key): bool`
-  - Returns boolean truthiness for `$key` (non-empty values yield `true`).
-  - Example: `if ($c->checkData('shared.image')) { ... }`
-
-- `export(): array`
-  - Returns the entire internal data array.
-
-Dynamic helpers via `__call`
-
-- You can call helper methods like `setSharedTitleBasic('value')`, `pushSharedId(5)`, `getSharedUrl()` and `checkShared('key')`.
-- The `__call` implementation maps method names with prefixes `(set|push|get|check)` and camel-cased suffixes into dot-notated keys.
-
-Example
+## Sample
 
 ```php
-$c = new Container();
-$c->setData('shared.title', 'Hi');
-$c->pushData('tags', 'news');
-echo $c->getData('shared.title');
+$container = new TargetContainer();
+$container->setKey('value');
+return $container->export();
 ```
 
+## Methods
+
+- `setData(?string $key, $value): Container`: Set value for a key, can use dot notation for nested keys.
+- `pushData(?string $key, $value): Container`: Push value into array or combine value at key, can use dot notation for nested keys.
+    - array: Append value to array
+    - int: Plus value to current value
+    - float: Plus value to current value
+    - string: Combine value to end of string`
+- `getData(?string $key = null, mixed $default = null): mixed`: Get value for a key, can use dot notation for nested keys.
+- `checkData(?string $key): bool`: Check if value is `true` for a key, can use dot notation for nested keys.
+- `export(): array`: Export all stored data as an array.
+
+### Magic methods
+
+`setData()`, `pushData()`, `getData()`, and `checkData()` methods can be called using magic methods.
+
+If data structure is:
+
+```php
+$data = [
+    'first' => [
+        'second' => null,
+    ],
+];
+```
+
+- `setFirstSecond(?string $key, $value): Container`: Set value for `first.second.$key`.
+- `setFirstSecond($value): Container`: Set value for `first.second`.
+- `pushFirstSecond(?string $key, $value): Container`: Push value into array or combine value at `first.second.$key`.
+- `pushFirstSecond($value): Container`: Push value into array or combine value at `first.second`.
+- `getFirstSecond(?string $key = null, mixed $default = null): mixed`: Get value for `first.second.$key`.
+- `getFirstSecond(mixed $default = null): mixed`: Get value for `first.second`.
+- `checkFirstSecond(?string $key): bool`: Check if value is `true` for `first.second.$key`.
+- `checkFirstSecond(): bool`: Check if value is `true` for `first.second`.

@@ -1,18 +1,15 @@
-# Containers/XmlContainer
+# XmlContainer
 
-Overview
+`XmlContainer` is a simple container class for handling XML data.
 
-`XmlContainer` provides a base for building XML responses. It stores `content` in the container and exposes a `response()` method returning an XML `Response` with proper headers.
+Base usage see [`Container` documentation](./Container.md).
 
-Public methods
+## Structure
 
-- `response(): Response` — returns an HTTP `Response` with `Content-Type: text/xml; charset=utf-8` and the XML prolog plus the container's `content`.
+- `content`: string. The XML content as a string.
 
-Example
+## Extra Methods
 
-```php
-$xml = new XmlContainer();
-$xml->setData('content', '<root><item>1</item></root>');
-return $xml->response();
-```
+### response()
 
+Directly output the XML content as an XML response.
