@@ -2,7 +2,7 @@
 
 `WebContainer` is a normalized container for handling web page metadata.
 
-Base usage: see [`Container` documentation](./Container.md).
+Base usage: see [`Container`](./Container.md) documentation.
 
 ## Structure
 

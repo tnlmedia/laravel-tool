@@ -2,7 +2,7 @@
 
 `ApiContainer` is a normalized container for structuring API response data.
 
-Base usage see [`Container` documentation](./Container.md).
+Base usage see [`Container`](./Container.md) documentation.
 
 ## Structure
 
