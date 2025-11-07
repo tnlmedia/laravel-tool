@@ -2,7 +2,7 @@
 
 `XmlContainer` is a simple container class for handling XML data.
 
-Base usage see [`Container` documentation](./Container.md).
+Base usage: see [`Container`](./Container.md) documentation.
 
 ## Structure
 
@@ -12,4 +12,4 @@ Base usage see [`Container` documentation](./Container.md).
 
 ### response()
 
-Directly output the XML content as an XML response.
+Return the XML content as an XML response.

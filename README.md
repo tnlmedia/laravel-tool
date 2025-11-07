@@ -1,12 +1,12 @@
-# PHP Laravel toolkit
+# PHP Laravel Toolkit
 
-This repository includes a small Laravel helper/toolkit used for analytics, advertising and small API clients.
+This repository contains a small Laravel toolkit for analytics, advertising, and lightweight API clients.
 
 ## Documentation
 
 Full documentation is available in the `docs/` folder. Open the index:
 
-- `(docs/INDEX.md)[docs/INDEX.md]` — primary index and overview for this package.
+- [docs/INDEX.md](docs/INDEX.md): Primary index and overview for this package.
 
 ## Install
 

@@ -1,11 +1,11 @@
 # Gatherer
 
-`Gatherer` provides a argument-driven way to build and execute search-like queries using a `Seeker` instance,
+`Gatherer` provides an argument-driven way to build and execute search-like queries using a `Seeker` instance.
 
 ## How to use
 
 1. Create a new class that extends `TNLMedia\LaravelTool\Cores\Gatherer`.
-2. Change the `$seeker` property to your target seeker class.
+2. Set the `$seeker` property to your target seeker class.
 3. Override `processCondition` and `processSort` methods to implement your search logic.
 
 ## Sample
@@ -21,22 +21,22 @@ $results = $gatherer->result();
 
 ## Methods
 
-- `setConditions(array $conditions = []): Gatherer`: Set search conditions, can set multi times to combine.
+- `setConditions(array $conditions = []): Gatherer`: Set search conditions; can be called multiple times to combine conditions.
 - `setSort(string $sort = ''): Gatherer`: Set sort descriptor.
 - `setLimit(int $offset = 0, int $limit = 10): Gatherer`: Set pagination parameters.
 - `result(): Collection`: Execute the query and return results.
-- `total(): int`: Get total count of matched records.
+- `total(): int`: Get the total count of matched records.
 
 ## processCondition
 
-Allow you to preprocess conditions before applying to the seeker instance.
+Allows you to preprocess conditions before applying them to the seeker instance.
 
-Follow method can help you to normalize condition values:
+Helper methods for normalizing condition values include:
 
 - `conditionIntegerList($value): array`: Normalize a scalar or array into an array of integers.
 - `conditionStringList($value): array`: Normalize a scalar or array into an array of strings.
-- `conditionStringToArray($value): array`: Split string by spaces.
+- `conditionStringToArray($value): array`: Split a string by spaces into an array.
 
 ## processSort
 
-Allow you to provide custom sort parsing logic.
+Allows you to provide custom sort parsing logic.

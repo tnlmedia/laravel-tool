@@ -2,7 +2,7 @@
 
 `SitemapIndexContainer` is a normalized container for managing and organizing sitemap index files.
 
-Base usage see [`Container`](./Container.md) and [`XmlContainer`](./XmlContainer.md) documentation
+Base usage: see [`Container`](./Container.md) and [`XmlContainer`](./XmlContainer.md).
 
 ## Structure
 
@@ -12,7 +12,7 @@ Base usage see [`Container`](./Container.md) and [`XmlContainer`](./XmlContainer
 
 ### pushRow()
 
-Append an entry to the `row` array.
+Append an entry to the `row` array. Each entry may include the following keys:
 
 - `loc`: string. The URL of the sitemap.
 - `lastmod`: DateTime. The last modification date of the sitemap.

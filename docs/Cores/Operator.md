@@ -1,11 +1,11 @@
 # Operator
 
-`Operator` is a Write/Delete operation class, helping to manage data modifications in the database.
+`Operator` is a write/delete operation helper that assists in managing data modifications in the database.
 
 ## How to use
 
 1. Create a new class that extends `TNLMedia\LaravelTool\Cores\Operator`.
-2. Implement methods for specific operations as needed.
+2. Implement methods for specific operations as required.
 
 ## Sample
 

@@ -1,6 +1,6 @@
 # TMGBlade
 
-`TMGBlade` is a facade for laravel blade quickly rendering analytics and advertising HTML.
+`TMGBlade` is a facade for Laravel Blade that renders analytics and advertising HTML snippets.
 
 ## `TMGBlade::renderHeader()`
 
@@ -16,17 +16,15 @@ Example:
 
 ## `TMGBlade::setTargeting($key, $list = [])`
 
-Sets custom google ad manager targeting keys and values.
+Sets custom Google Ad Manager targeting keys and values. `$key` is the targeting key (string) and `$list` is an array of string values.
 
 ## `TMGBlade::setMaterial($key, $value)`
 
-Sets nested material metadata used for analytics and convert to advertising targeting.
-
-See material structure details in `tmg-analytics` config file. TODO: TBD
+Sets nested material metadata used for analytics and converted into advertising targeting. See material structure details in the `tmg-analytics` config file.
 
 ## `TMGBlade::renderSlot($name, $config = [])`
 
-Render an ad slot by merging default config from `tmg-advertising.slot.{name}` with supplied `$config` and page targeting.
+Renders an ad slot by merging default config from `tmg-advertising.slot.{name}` with the supplied `$config` and page targeting.
 
 Example:
 

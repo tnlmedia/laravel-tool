@@ -1,28 +1,27 @@
 # GatewayClient
 
-`GatewayClient` help you to interact with Gateway API easily.
+`GatewayClient` helps you interact with the Gateway API.
 
-More information about Gateway API can be found at [Inkmagine Gateway API Documentation](https://gateway.inkmaginecms.com/docs/).
+More information about the Gateway API can be found at [Inkmagine Gateway API Documentation](https://gateway.inkmaginecms.com/docs/).
 
 ## How to use
 
-1. Config `gateway.client` and `gateway.secret` in your `config/inkmagine.php` file.
-2. New a `GatewayClient` instance, start to call API.
+1. Configure `gateway.client` and `gateway.secret` in your `config/inkmagine.php` file.
+2. Instantiate a `GatewayClient` and call the API methods.
 
 ## Methods
 
-- `api(string $path, array $parameters = [], string $method = 'GET'): array`: Call Gateway API with given path and parameters.
-- `upload(string $path, array $form_data = [], string $method = 'POST'): array`: Upload file to Gateway API with given path and form data.
-- `oauth(string $code, string $redirect_uri): array`: Get login member info by OAuth code.
-- `setAccessToken(string $token): GatewayClient`: Set exists access token for API calls.
+- `api(string $path, array $parameters = [], string $method = 'GET'): array`: Call the Gateway API with the given path and parameters.
+- `upload(string $path, array $form_data = [], string $method = 'POST'): array`: Upload a file or form data to the Gateway API at the given path.
+- `oauth(string $code, string $redirect_uri): array`: Retrieve login/member information using an OAuth code.
+- `setAccessToken(string $token): GatewayClient`: Set an existing access token for subsequent API calls.
 
 ## Example
 
 ### Make a request
 
 ```php
-// Source
-$source = new GatewayClient()->api('members/' . $this->target_id);
+$source = (new GatewayClient())->api('members/' . $this->target_id);
 if (empty($source)) {
     throw NotFoundException::invalidField('target_id');
 }
@@ -40,7 +39,7 @@ if (!$member) {
 }
 ```
 
-### Login progress
+### Login process
 
 ```php
 $client = new GatewayClient();
@@ -48,17 +47,12 @@ $client = new GatewayClient();
 // Member
 $source = $client->oauth(strval($request->input('code')), route('member.process'));
 $source['uuid'] = strval($source['uuid'] ?? '');
-$member = MemberSeeker::query()
-    ->memberUuid([$source['uuid']])
-    ->first();
+$member = MemberSeeker::query()->memberUuid([$source['uuid']])->first();
 if (!$member) {
     MemberSyncJob::dispatchSync($source['uuid']);
-    $member = MemberSeeker::query()
-        ->memberUuid([$source['uuid']])
-        ->first();
+    $member = MemberSeeker::query()->memberUuid([$source['uuid']])->first();
 } else {
-    MemberSyncJob::dispatch($member->member_uuid)
-        ->onQueue(QueueRankKey::Inkmagine->value);
+    MemberSyncJob::dispatch($member->member_uuid)->onQueue(QueueRankKey::Inkmagine->value);
 }
 if (!$member) {
     throw new Exception('Member not found');
