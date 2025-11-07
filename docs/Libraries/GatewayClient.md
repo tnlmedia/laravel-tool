@@ -1,51 +1,72 @@
-# Libraries/GatewayClient.php
+# GatewayClient
 
-Overview
+`GatewayClient` help you to interact with Gateway API easily.
 
-`GatewayClient` is a HTTP client for the Gateway API with methods for oauth flow, token management and standard API/multipart calls.
+More information about Gateway API can be found at [Inkmagine Gateway API Documentation](https://gateway.inkmaginecms.com/docs/).
 
-Class: TNLMedia\LaravelTool\Libraries\GatewayClient
+## How to use
 
-Methods (detailed)
+1. Config `gateway.client` and `gateway.secret` in your `config/inkmagine.php` file.
+2. New a `GatewayClient` instance, start to call API.
 
-- `api(string $path, array $parameters = [], string $method = 'GET'): array`
-  - Description: Request data from Gateway API; expects `code === 20000` in successful responses.
-  - Parameters:
-    - `$path` (string): API path.
-    - `$parameters` (array): GET query or JSON body.
-    - `$method` (string): HTTP method.
-  - Returns: `array` - `data` field.
-  - Example:
+## Methods
 
-```php
-$gw = new TNLMedia\LaravelTool\Libraries\GatewayClient();
-$data = $gw->api('resources/123');
-```
+- `api(string $path, array $parameters = [], string $method = 'GET'): array`: Call Gateway API with given path and parameters.
+- `upload(string $path, array $form_data = [], string $method = 'POST'): array`: Upload file to Gateway API with given path and form data.
+- `oauth(string $code, string $redirect_uri): array`: Get login member info by OAuth code.
+- `setAccessToken(string $token): GatewayClient`: Set exists access token for API calls.
 
-- `upload(string $path, array $form_data = [], string $method = 'POST'): array`
-  - Multipart upload; expects `code === 20000` on success.
+## Example
 
-- `oauth(string $code, string $redirect_uri): array`
-  - Performs an `authorization_code` exchange against the Gateway `/token` endpoint.
-  - Parameters:
-    - `$code` (string): authorization code received from the provider.
-    - `$redirect_uri` (string): redirect URI used in the OAuth dance.
-  - Returns: `array` - the current member info from `members/current` (calls `api('members/current')`).
-  - Behavior: Sets the access token on success via `setAccessToken()`.
-  - Example:
+### Make a request
 
 ```php
-$member = $gw->oauth($code, 'https://app.example.com/callback');
+// Source
+$source = new GatewayClient()->api('members/' . $this->target_id);
+if (empty($source)) {
+    throw NotFoundException::invalidField('target_id');
+}
+
+// Get
+$new = false;
+$member = MemberSeeker::query()->memberUuid([$source['uuid'] ?? ''])->first();
+if (!$member) {
+    $member = new Member();
+    $member->fill([
+        'member_uuid' => strval($source['uuid'] ?? ''),
+        'member_id' => intval($source['id'] ?? 0),
+    ]);
+    $new = true;
+}
 ```
 
-- `setAccessToken(string $token): GatewayClient` — set token manually.
+### Login progress
 
-Protected/internal
+```php
+$client = new GatewayClient();
 
-- `accessToken(bool $reset = false)` - obtains token via client credentials when no runtime token is set.
-- `request()` and `requestUrl()` - HTTP helpers used internally.
+// Member
+$source = $client->oauth(strval($request->input('code')), route('member.process'));
+$source['uuid'] = strval($source['uuid'] ?? '');
+$member = MemberSeeker::query()
+    ->memberUuid([$source['uuid']])
+    ->first();
+if (!$member) {
+    MemberSyncJob::dispatchSync($source['uuid']);
+    $member = MemberSeeker::query()
+        ->memberUuid([$source['uuid']])
+        ->first();
+} else {
+    MemberSyncJob::dispatch($member->member_uuid)
+        ->onQueue(QueueRankKey::Inkmagine->value);
+}
+if (!$member) {
+    throw new Exception('Member not found');
+}
 
-Notes
-
-- The `oauth` method throws if the token exchange returns no `access_token`.
-- Gateway API uses `20000` as a success code convention; the wrapper validates that.
+// Login
+if (Auth::check()) {
+    Auth::logout();
+}
+Auth::login($member);
+```
