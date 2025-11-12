@@ -1,64 +1,58 @@
-# Analytics for frontend
+# Analytics (Frontend)
 
-Blade only provide basic analytics features, but you can custom more event tracking by yourself.
+The Blade frontend helpers provide basic analytics features. You can extend or customize event tracking as needed.
 
 ## Track class
 
-You can set `tmg-analytics.track` class to any element for track click and impression event.
+Set the `tmg-analytics.track` class to any element to enable click and impression tracking. Example:
 
 ```html
 <a href="#" class="track-click track-impression" data-track-event="Sign" data-track-label="Up">Sign Up</a>
 ```
 
-## Google analytics 4
+## Google Analytics 4 (GA4)
 
-Blade will automatically send event for `Counter-Author`, `Counter-Term` and `Paid-Content` from material metadata.
+TMGBlade will automatically send events for `Counter-Author`, `Counter-Term`, and `Paid-Content` from material metadata.
 
-You can send more event via follow functions:
+To send custom events, use the gtag function wrappers. Example:
 
 ```javascript
 core_gtag('event', 'Sign', {action: 'click', label: 'Up'});
 ```
 
-The key will be the functions prefix:
+You can target specific GA4 instances by using key as different prefixes:
 
 ```javascript
-// Send event to specific ga4
+// Send event to a specific GA4 instance
 core_gtag('event', 'Sign', {action: 'click', label: 'Up'});
 second_gtag('event', 'Sign', {action: 'click', label: 'Up'});
 
-// Send event to all ga4
+// Send event to all GA4 instances
 gtag_all('event', 'Sign', {action: 'click', label: 'Up'});
 ```
 
-## Google tag manager
+## Google Tag Manager (GTM)
 
-Blade will automatically send datalayer for `analyticsAuthors`, `analyticsTerms` and `paidContent` from material metadata.
+TMGBlade will automatically push dataLayer objects for `analyticsAuthors`, `analyticsTerms`, and `paidContent` from material metadata.
 
-You can send more datalayer via follow datalayer:
-
-```javascript
-coreGtmLayer.push({event: 'Sign', action: 'click', label: 'Up'});
-```
-
-The key will be the datalayer prefix:
+You can target specific GTM container by using key as different prefixes:
 
 ```javascript
-// Send datalayer to specific gtm
+// Send data to a specific GTM container
 coreGtmLayer.push({event: 'Sign', action: 'click', label: 'Up'});
 secondGtmLayer.push({event: 'Sign', action: 'click', label: 'Up'});
 
-// Send datalayer to all gtm
+// Send data to all GTM containers
 gtmLayerAll.push({event: 'Sign', action: 'click', label: 'Up'});
 ```
 
 ## Comscore
 
-There is no help function for comscore.
+There are no helper functions for Comscore.
 
-## Facebook pixel
+## Facebook Pixel
 
-You can send event as general facebook pixel function:
+To send events to Facebook Pixel, use the standard fbq API:
 
 ```javascript
 fbq('track', 'SignUp', {action: 'click', label: 'Up'});
@@ -66,4 +60,4 @@ fbq('track', 'SignUp', {action: 'click', label: 'Up'});
 
 ## Chartbeat
 
-There is no help function for chartbeat.
+There are no helper functions for Chartbeat.

@@ -1,10 +1,10 @@
-# Advertising for frontend
+# Advertising (Frontend)
 
-Advertising function also provides few useful features for frontend developers.
+The advertising utilities provide useful features for frontend developers.
 
-## Render advertisement
+## Render advertisements
 
-All advertisement need to render manually.
+Advertisements need to be rendered manually. Call the following function to scan and render ad slots on the page:
 
 ```javascript
 tmgad.scan();
@@ -12,6 +12,8 @@ tmgad.scan();
 
 ## Custom event listener
 
-If you want to listen advertisement events, you can set custom function at config `tmg-advertising.gam.event`.
+To listen for advertisement events, configure a custom handler using the configuration key `tmg-advertising.gam.event`.
 
-More event details can be found at [Google Ad Manager Event](https://developers.google.com/publisher-tag/samples/ad-event-listeners).
+For more details about available events and payloads, see Google Publisher Tag event listeners:
+
+https://developers.google.com/publisher-tag/samples/ad-event-listeners

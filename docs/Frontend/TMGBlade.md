@@ -2,11 +2,11 @@
 
 `TMGBlade` is a facade for Laravel Blade that renders analytics and advertising HTML snippets.
 
-## `TMGBlade::renderHeader()`
+## TMGBlade::renderHeader()
 
-Returns header HTML with analytics and advertising bootstrap.
+Returns header HTML containing analytics and advertising bootstrap code.
 
-You can configure analytics and advertising settings in the `tmg-analytics` and `tmg-advertising` config files.
+Configure analytics and advertising settings in the `tmg-analytics` and `tmg-advertising` configuration files.
 
 Example:
 
@@ -14,17 +14,29 @@ Example:
 {{ TMGBlade::renderHeader() }}
 ```
 
-## `TMGBlade::setTargeting($key, $list = [])`
+## TMGBlade::setTargeting($key, $list = [])
 
-Sets custom Google Ad Manager targeting keys and values. `$key` is the targeting key (string) and `$list` is an array of string values.
+Set custom Google Ad Manager targeting keys and values. `$key` is the targeting key (string). `$list` is an array of string values.
 
-## `TMGBlade::setMaterial($key, $value)`
+Example:
 
-Sets nested material metadata used for analytics and converted into advertising targeting. See material structure details in the `tmg-analytics` config file.
+```php
+TMGBlade::setTargeting('section', ['news', 'sports']);
+```
 
-## `TMGBlade::renderSlot($name, $config = [])`
+## TMGBlade::setMaterial($key, $value)
 
-Renders an ad slot by merging default config from `tmg-advertising.slot.{name}` with the supplied `$config` and page targeting.
+Set nested material metadata used for analytics and converted into advertising targeting. See material structure details in the `tmg-analytics` configuration file.
+
+Example:
+
+```php
+TMGBlade::setMaterial('author', 'John Doe');
+```
+
+## TMGBlade::renderSlot($name, $config = [])
+
+Render an ad slot by merging the default config from `tmg-advertising.slot.{name}` with the supplied `$config` and page targeting.
 
 Example:
 
