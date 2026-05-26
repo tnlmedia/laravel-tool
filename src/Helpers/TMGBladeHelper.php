@@ -82,12 +82,12 @@ class TMGBladeHelper
             'material' => $this->material,
         ];
         $header .= view('TMG::analytics.facebook', $payload)->toHtml();
-        $payload = [
-            'config' => config('tmg-analytics.chartbeat', []),
-            'host' => parse_url(config('app.url'), PHP_URL_HOST),
-            'material' => $this->material,
-        ];
-        $header .= view('TMG::analytics.chartbeat', $payload)->toHtml();
+        // $payload = [
+        //     'config' => config('tmg-analytics.chartbeat', []),
+        //     'host' => parse_url(config('app.url'), PHP_URL_HOST),
+        //     'material' => $this->material,
+        // ];
+        // $header .= view('TMG::analytics.chartbeat', $payload)->toHtml();
         $payload = [
             'config' => config('tmg-analytics.track', []),
             'material' => $this->material,
