@@ -1,8 +1,6 @@
 @if ($gam_status)
   <script>
-    @if ($gam_status)
-      window.googletag = window.googletag || {cmd: []};
-    @endif
+    window.googletag = window.googletag || {cmd: []};
   </script>
 @endif
 @if ($gam_status)
