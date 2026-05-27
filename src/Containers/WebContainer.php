@@ -372,7 +372,7 @@ class WebContainer extends Container
         $value[] = 'resource.tnlmediagene.com';
         $value[] = 'www.googletagmanager.com';
         $value[] = 'analytics.google.com';
-        $value[] = 'ping.chartbeat.net';
+        // $value[] = 'ping.chartbeat.net';
         $value[] = 'pagead2.googlesyndication.com';
         $value[] = 'securepubads.g.doubleclick.net';
         $value = array_unique($value);
